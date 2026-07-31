@@ -43,14 +43,14 @@ export const getUser = catchAsync(async (req, res) => {
 })
 
 export const createUser = catchAsync(async (req, res) => {
-  const { name, email, password, role, phone } = req.body
+  const { name, email, password, role, phone, client } = req.body
 
   await assertCanAssignRole(req.user, role)
 
   const exists = await User.exists({ email })
   if (exists) throw ApiError.conflict('A user with this email already exists')
 
-  const user = await User.create({ name, email, phone, passwordHash: password, role, createdBy: req.user._id })
+  const user = await User.create({ name, email, phone, passwordHash: password, role, client: client || null, createdBy: req.user._id })
   await user.populate('role')
 
   await recordActivity(req, { action: 'create', module: 'users', targetId: user._id, description: `Created user "${user.name}"` })
@@ -62,7 +62,7 @@ export const updateUser = catchAsync(async (req, res) => {
   if (!user) throw ApiError.notFound('User not found')
 
   const before = user.toSafeObject()
-  const { name, email, role, phone, isActive } = req.body
+  const { name, email, role, phone, isActive, client } = req.body
 
   if (role !== undefined) {
     await assertCanAssignRole(req.user, role)
@@ -71,6 +71,7 @@ export const updateUser = catchAsync(async (req, res) => {
   if (name !== undefined) user.name = name
   if (email !== undefined) user.email = email
   if (phone !== undefined) user.phone = phone
+  if (client !== undefined) user.client = client || null
   if (isActive !== undefined) {
     if (user._id.equals(req.user._id) && isActive === false) {
       throw ApiError.badRequest('You cannot deactivate your own account')

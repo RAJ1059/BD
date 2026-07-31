@@ -31,7 +31,10 @@ import CategoriesPage from './pages/admin/CategoriesPage'
 import TagsPage from './pages/admin/TagsPage'
 import MediaPage from './pages/admin/MediaPage'
 import ActivityLogsPage from './pages/admin/ActivityLogsPage'
+import ClientLayout from './layouts/ClientLayout'
 import ClientDashboard from './pages/client/ClientDashboard'
+import ClientProjectsPage from './pages/client/ClientProjectsPage'
+import ClientProfilePage from './pages/client/ClientProfilePage'
 
 const googleClientId = import.meta.env.VITE_GOOGLE_CLIENT_ID
 
@@ -65,13 +68,17 @@ function App() {
             <Route path="activity-logs" element={<ActivityLogsPage />} />
           </Route>
           <Route
-            path="/client/*"
+            path="/client"
             element={
               <ProtectedRoute roles={['Client']}>
-                <ClientDashboard />
+                <ClientLayout />
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<ClientDashboard />} />
+            <Route path="projects" element={<ClientProjectsPage />} />
+            <Route path="profile" element={<ClientProfilePage />} />
+          </Route>
           <Route
             path="*"
             element={

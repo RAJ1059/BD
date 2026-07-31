@@ -26,6 +26,9 @@ const userSchema = new mongoose.Schema(
     // Google OAuth (optional login)
     googleId: { type: String, default: null, index: true, sparse: true },
 
+    // Links a Client-role account to its CRM Client record, scoping what it can see in the client portal.
+    client: { type: mongoose.Schema.Types.ObjectId, ref: 'Client', default: null },
+
     lastLoginAt: { type: Date },
     createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   },

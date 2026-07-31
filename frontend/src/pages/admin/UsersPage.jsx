@@ -8,16 +8,18 @@ import Badge from '../../components/admin/Badge'
 import { TextInput, Select, Checkbox } from '../../components/admin/FormField'
 import { usersApi } from '../../api/users'
 import { rolesApi } from '../../api/roles'
+import { clientsApi } from '../../api/clients'
 import { useDebouncedValue } from '../../lib/useDebouncedValue'
 import { ApiError } from '../../lib/api'
 import { useAuth } from '../../context/AuthContext'
 
-const emptyForm = { name: '', email: '', phone: '', password: '', role: '', isActive: true }
+const emptyForm = { name: '', email: '', phone: '', password: '', role: '', isActive: true, client: '' }
 
 export default function UsersPage() {
   const { user: currentUser } = useAuth()
   const [rows, setRows] = useState([])
   const [roles, setRoles] = useState([])
+  const [clients, setClients] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [search, setSearch] = useState('')
@@ -54,7 +56,11 @@ export default function UsersPage() {
 
   useEffect(() => {
     rolesApi.list().then((res) => setRoles(res.data)).catch(() => {})
+    clientsApi.list({ limit: 200 }).then((res) => setClients(res.data)).catch(() => {})
   }, [])
+
+  const selectedRoleName = roles.find((r) => r._id === form.role)?.name
+  const isClientRole = selectedRoleName === 'Client'
 
   const openCreate = () => {
     setEditing(null)
@@ -65,7 +71,15 @@ export default function UsersPage() {
 
   const openEdit = (row) => {
     setEditing(row)
-    setForm({ name: row.name, email: row.email, phone: row.phone || '', password: '', role: row.role?._id || '', isActive: row.isActive })
+    setForm({
+      name: row.name,
+      email: row.email,
+      phone: row.phone || '',
+      password: '',
+      role: row.role?._id || '',
+      isActive: row.isActive,
+      client: row.client || '',
+    })
     setFormError('')
     setModalOpen(true)
   }
@@ -74,11 +88,12 @@ export default function UsersPage() {
     e.preventDefault()
     setSaving(true)
     setFormError('')
+    const clientField = isClientRole ? { client: form.client || null } : {}
     try {
       if (editing) {
-        await usersApi.update(editing._id, { name: form.name, email: form.email, phone: form.phone, role: form.role, isActive: form.isActive })
+        await usersApi.update(editing._id, { name: form.name, email: form.email, phone: form.phone, role: form.role, isActive: form.isActive, ...clientField })
       } else {
-        await usersApi.create({ name: form.name, email: form.email, phone: form.phone, password: form.password, role: form.role })
+        await usersApi.create({ name: form.name, email: form.email, phone: form.phone, password: form.password, role: form.role, ...clientField })
       }
       setModalOpen(false)
       await load()
@@ -179,6 +194,16 @@ export default function UsersPage() {
               </option>
             ))}
           </Select>
+          {isClientRole && (
+            <Select label="Linked Client" value={form.client} onChange={(e) => setForm({ ...form, client: e.target.value })}>
+              <option value="">No linked client</option>
+              {clients.map((c) => (
+                <option key={c._id} value={c._id}>
+                  {c.companyName}
+                </option>
+              ))}
+            </Select>
+          )}
           {editing && <Checkbox label="Active" checked={form.isActive} onChange={(e) => setForm({ ...form, isActive: e.target.checked })} />}
           <div className="flex justify-end gap-3 pt-2">
             <PrimaryButton type="submit" disabled={saving}>

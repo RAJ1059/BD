@@ -12,6 +12,7 @@ import mediaRoutes from './media.routes.js'
 import dashboardRoutes from './dashboard.routes.js'
 import activityLogRoutes from './activityLog.routes.js'
 import publicRoutes from './public.routes.js'
+import clientPortalRoutes from './clientPortal.routes.js'
 
 const router = Router()
 
@@ -28,5 +29,6 @@ router.use('/media', mediaRoutes)
 router.use('/dashboard', dashboardRoutes)
 router.use('/activity-logs', activityLogRoutes)
 router.use('/public', publicRoutes)
+router.use('/client-portal', clientPortalRoutes)
 
 export default router
