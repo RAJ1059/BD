@@ -1,0 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+@import 'tailwindcss';
+
+:root {
+  font-family: 'Inter', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: #f4f4f8;
+  background-color: #09090b;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: #09090b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+button, input, textarea {
+  font: inherit;
+}
+
+@keyframes sun-pulse {
+  0%, 100% { box-shadow: 0 0 40px 10px rgba(160, 80, 248, 0.45), 0 0 90px 30px rgba(255, 116, 57, 0.18); }
+  50% { box-shadow: 0 0 58px 18px rgba(160, 80, 248, 0.6), 0 0 110px 42px rgba(255, 116, 57, 0.28); }
+}
+
+@keyframes orbit-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Static centering lives here, separate from the rotating layer below it —
+   CSS animations replace the whole `transform` property, so centering and
+   rotation can't share one element. */
+.orbit-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--orbit-size);
+  height: var(--orbit-size);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 0 1px rgba(160, 80, 248, 0.03), inset 0 0 40px rgba(160, 80, 248, 0.04);
+}
+
+.orbit-spin {
+  position: absolute;
+  inset: 0;
+  animation: orbit-rotate linear infinite;
+}
+
+.orbit-anchor {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.orbit-counter {
+  animation: orbit-rotate linear infinite;
+}
+
+.orbit-dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.14) 1px, transparent 1px);
+  background-size: 28px 28px;
+  -webkit-mask-image: radial-gradient(circle, black 0%, transparent 72%);
+  mask-image: radial-gradient(circle, black 0%, transparent 72%);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.marquee-wrap {
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, black 8%, black 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee linear infinite;
+}
+
+.marquee-wrap:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.blog-editor-content {
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.blog-editor-content h1,
+.blog-editor-content h2,
+.blog-editor-content h3 {
+  color: #ffffff;
+  font-weight: 700;
+  margin: 1.4em 0 0.5em;
+}
+
+.blog-editor-content h1 { font-size: 1.8em; }
+.blog-editor-content h2 { font-size: 1.5em; }
+.blog-editor-content h3 { font-size: 1.25em; }
+
+.blog-editor-content h1:first-child,
+.blog-editor-content h2:first-child,
+.blog-editor-content h3:first-child,
+.blog-editor-content p:first-child {
+  margin-top: 0;
+}
+
+.blog-editor-content p {
+  margin: 0.75em 0;
+}
+
+.blog-editor-content strong {
+  color: #ffffff;
+}
+
+.blog-editor-content a {
+  color: #a050f8;
+  text-decoration: underline;
+}
+
+.blog-editor-content ul,
+.blog-editor-content ol {
+  margin: 0.75em 0;
+  padding-left: 1.5em;
+}
+
+.blog-editor-content ul {
+  list-style: disc;
+}
+
+.blog-editor-content ol {
+  list-style: decimal;
+}
+
+.blog-editor-content blockquote {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 3px solid #a050f8;
+  color: #9898a6;
+  font-style: italic;
+}
+
+.blog-editor-content code {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-size: 0.9em;
+}
+
+.blog-editor-content hr {
+  border: none;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 1.5em 0;
+}
+
+.blog-editor-content img {
+  max-width: 100%;
+  border-radius: 12px;
+  margin: 0.75em 0;
+}
+
+.blog-editor-content mark {
+  background: rgba(160, 80, 248, 0.35);
+  color: inherit;
+  border-radius: 2px;
+}
+
+.blog-editor-content p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  color: #6b6b78;
+  pointer-events: none;
+  height: 0;
+}
