@@ -1,9 +1,9 @@
 const TONES = {
-  neutral: 'bg-white/10 text-[#9898A6]',
-  purple: 'bg-[#A050F8]/15 text-[#A050F8]',
+  neutral: 'bg-white/10 text-[#8B93A7]',
+  purple: 'bg-[#05B0BA]/15 text-[#05B0BA]',
   green: 'bg-emerald-500/15 text-emerald-400',
   red: 'bg-red-500/15 text-red-400',
-  orange: 'bg-[#FF7439]/15 text-[#FF7439]',
+  orange: 'bg-[#22D3D9]/15 text-[#22D3D9]',
   blue: 'bg-sky-500/15 text-sky-400',
 }
 

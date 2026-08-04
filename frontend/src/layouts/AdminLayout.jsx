@@ -42,8 +42,8 @@ export default function AdminLayout() {
   }
 
   return (
-    <div className="flex min-h-screen bg-[#09090B]">
-      <aside className="flex w-64 shrink-0 flex-col border-r border-white/10 bg-[#111115]">
+    <div className="flex min-h-screen bg-[#0B0E14]">
+      <aside className="flex w-64 shrink-0 flex-col border-r border-white/10 bg-[#141928]">
         <div className="flex items-center gap-2 border-b border-white/10 px-6 py-5">
           <img src={logo} alt="Business Directions" className="h-8 w-auto" />
         </div>
@@ -55,7 +55,7 @@ export default function AdminLayout() {
               end={end}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-medium transition ${
-                  isActive ? 'bg-[#A050F8]/15 text-[#A050F8]' : 'text-[#9898A6] hover:bg-white/5 hover:text-white'
+                  isActive ? 'bg-[#05B0BA]/15 text-[#05B0BA]' : 'text-[#8B93A7] hover:bg-white/5 hover:text-white'
                 }`
               }
             >
@@ -67,10 +67,10 @@ export default function AdminLayout() {
       </aside>
 
       <div className="flex min-w-0 flex-1 flex-col">
-        <header className="flex items-center justify-between border-b border-white/10 bg-[#111115] px-6 py-4">
+        <header className="flex items-center justify-between border-b border-white/10 bg-[#141928] px-6 py-4">
           <div>
             <p className="text-sm font-semibold text-white">{user?.name}</p>
-            <p className="text-xs text-[#6B6B78]">{user?.role?.name}</p>
+            <p className="text-xs text-[#5B6478]">{user?.role?.name}</p>
           </div>
           <button
             onClick={handleLogout}

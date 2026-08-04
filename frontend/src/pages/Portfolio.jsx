@@ -21,7 +21,7 @@ export default function Portfolio() {
   const filtered = filter === 'All' ? projects : projects.filter((p) => p.industry === filter)
 
   return (
-    <div className="bg-[#09090B]">
+    <div className="bg-[#0B0E14]">
       <PageHero
         eyebrow="Portfolio"
         title="Selected work that blends strategy, design, and growth."
@@ -36,7 +36,7 @@ export default function Portfolio() {
               key={industry}
               onClick={() => setFilter(industry)}
               className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-                filter === industry ? 'bg-[#A050F8] text-white' : 'bg-white/5 text-[#9898A6] hover:bg-white/10'
+                filter === industry ? 'bg-[#05B0BA] text-white' : 'bg-white/5 text-[#8B93A7] hover:bg-white/10'
               }`}
             >
               {industry}
@@ -54,7 +54,7 @@ export default function Portfolio() {
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96 }}
                 transition={{ delay: index * 0.04 }}
-                className="group overflow-hidden rounded-[32px] border border-white/10 bg-[#111115] shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+                className="group overflow-hidden rounded-[32px] border border-white/10 bg-[#141928] shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
               >
                 <div className="relative h-56 overflow-hidden">
                   <img src={project.img} alt={project.title} className="h-full w-full object-cover transition duration-500 group-hover:scale-110" />
@@ -66,12 +66,12 @@ export default function Portfolio() {
                 </div>
                 <div className="p-8">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#A050F8]">{project.category}</p>
-                    <span className="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-[#9898A6]">{project.industry}</span>
+                    <p className="text-sm font-semibold uppercase tracking-[0.25em] text-[#05B0BA]">{project.category}</p>
+                    <span className="rounded-full bg-white/5 px-3 py-1 text-xs font-medium text-[#8B93A7]">{project.industry}</span>
                   </div>
                   <h3 className="mt-3 text-2xl font-semibold text-white">{project.title}</h3>
-                  <p className="mt-4 text-sm leading-7 text-[#9898A6]">{project.description}</p>
-                  <p className="mt-4 text-sm font-semibold text-[#FF7439]">{project.result}</p>
+                  <p className="mt-4 text-sm leading-7 text-[#8B93A7]">{project.description}</p>
+                  <p className="mt-4 text-sm font-semibold text-[#22D3D9]">{project.result}</p>
                 </div>
               </motion.article>
             ))}
@@ -80,7 +80,7 @@ export default function Portfolio() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="rounded-[36px] bg-gradient-to-r from-[#A050F8] to-[#FF7439] p-8 text-white lg:p-12">
+        <div className="rounded-[36px] bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] p-8 text-white lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Like what you see?</p>
@@ -88,7 +88,7 @@ export default function Portfolio() {
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
               <p className="text-sm leading-7 text-slate-100">Tell us about your goals and we'll show you how we'd approach your project.</p>
-              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#09090B]">
+              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
                 Start a project <FiArrowRight />
               </Link>
             </div>

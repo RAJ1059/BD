@@ -128,11 +128,11 @@ export default function UsersPage() {
       header: '',
       render: (row) => (
         <div className="flex justify-end gap-2">
-          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-white/5 hover:text-white">
+          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-white/5 hover:text-white">
             <FiEdit2 size={16} />
           </button>
           {row._id !== currentUser?._id && (
-            <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-red-500/10 hover:text-red-400">
+            <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-red-500/10 hover:text-red-400">
               <FiTrash2 size={16} />
             </button>
           )}

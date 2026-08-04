@@ -27,7 +27,7 @@ export default function ProcessStepper({ steps }) {
             key={step.title}
             onClick={() => handleSelect(index)}
             className={`rounded-full px-4 py-2 text-sm font-semibold transition ${
-              index === active ? 'bg-[#A050F8] text-white' : 'bg-white/5 text-[#9898A6] hover:bg-white/10'
+              index === active ? 'bg-[#05B0BA] text-white' : 'bg-white/5 text-[#8B93A7] hover:bg-white/10'
             }`}
           >
             0{index + 1} {step.title}
@@ -42,15 +42,15 @@ export default function ProcessStepper({ steps }) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
           transition={{ duration: 0.3 }}
-          className="relative mt-8 overflow-hidden rounded-[24px] border border-white/10 bg-[#09090B] p-8"
+          className="relative mt-8 overflow-hidden rounded-[24px] border border-white/10 bg-[#0B0E14] p-8"
         >
-          <div className="text-sm font-semibold text-[#A050F8]">0{active + 1}</div>
+          <div className="text-sm font-semibold text-[#05B0BA]">0{active + 1}</div>
           <h3 className="mt-3 text-2xl font-semibold text-white">{steps[active].title}</h3>
-          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#9898A6]">{steps[active].desc}</p>
+          <p className="mt-3 max-w-2xl text-sm leading-7 text-[#8B93A7]">{steps[active].desc}</p>
           <div className="absolute bottom-0 left-0 h-1 w-full bg-white/5">
             <motion.div
               key={`${active}-${cycle}`}
-              className="h-full bg-gradient-to-r from-[#A050F8] to-[#FF7439]"
+              className="h-full bg-gradient-to-r from-[#05B0BA] to-[#22D3D9]"
               initial={{ width: '0%' }}
               animate={{ width: '100%' }}
               transition={{ duration: STEP_DURATION, ease: 'linear' }}

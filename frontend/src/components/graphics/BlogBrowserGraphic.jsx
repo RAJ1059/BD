@@ -14,22 +14,22 @@ export default function BlogBrowserGraphic() {
     <div className="relative mx-auto flex h-[360px] w-full max-w-md items-center justify-center sm:h-[420px]">
       <div
         className="absolute h-64 w-64 rounded-full opacity-30 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #A050F8 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, #05B0BA 0%, transparent 70%)' }}
       />
       <motion.div
         initial={{ y: 0 }}
         animate={{ y: [0, -10, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        className="relative w-full max-w-sm overflow-hidden rounded-2xl border border-white/10 bg-[#111115] shadow-2xl"
+        className="relative w-full max-w-sm overflow-hidden rounded-2xl border border-white/10 bg-[#141928] shadow-2xl"
       >
         <div className="flex items-center gap-2 border-b border-white/10 px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-[#FF5C35]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#FF7439]" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#A050F8]" />
-          <div className="ml-2 flex-1 rounded-full bg-[#09090B] px-3 py-1 text-[11px] text-[#6B6B78]">businessdirection.com/blog</div>
+          <span className="h-2.5 w-2.5 rounded-full bg-[#0891A0]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#22D3D9]" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#05B0BA]" />
+          <div className="ml-2 flex-1 rounded-full bg-[#0B0E14] px-3 py-1 text-[11px] text-[#5B6478]">businessdirection.com/blog</div>
         </div>
         <div className="space-y-4 p-6">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#A050F8] to-[#FF7439] text-white">
+          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white">
             <FiBookOpen size={16} />
           </div>
           <div className="space-y-2.5">
@@ -44,7 +44,7 @@ export default function BlogBrowserGraphic() {
             ))}
           </div>
           <div className="flex items-center gap-3 pt-2">
-            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#FF5C35] to-[#A050F8]" />
+            <div className="h-8 w-8 rounded-full bg-gradient-to-br from-[#0891A0] to-[#05B0BA]" />
             <div className="space-y-1">
               <div className="h-2 w-20 rounded-full bg-white/20" />
               <div className="h-2 w-14 rounded-full bg-white/10" />

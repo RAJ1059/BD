@@ -9,7 +9,7 @@ const trustPoints = ['15 specialized service lines', '40+ certified strategists'
 
 export default function Services() {
   return (
-    <div className="bg-[#09090B]">
+    <div className="bg-[#0B0E14]">
       <PageHero
         eyebrow="Services"
         title="Comprehensive growth services for modern brands."
@@ -18,7 +18,7 @@ export default function Services() {
       >
         <div className="mt-8 flex flex-wrap gap-6 text-sm text-slate-300">
           {trustPoints.map((point) => (
-            <div key={point} className="flex items-center gap-2"><FiCheckCircle className="text-[#FF7439]" /> {point}</div>
+            <div key={point} className="flex items-center gap-2"><FiCheckCircle className="text-[#22D3D9]" /> {point}</div>
           ))}
         </div>
       </PageHero>
@@ -37,14 +37,14 @@ export default function Services() {
               >
                 <Link
                   to={`/services/${service.slug}`}
-                  className="group block h-full rounded-[28px] border border-white/10 bg-[#111115] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#A050F8]/50 hover:shadow-xl hover:shadow-[#A050F8]/10"
+                  className="group block h-full rounded-[28px] border border-white/10 bg-[#141928] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#05B0BA]/50 hover:shadow-xl hover:shadow-[#05B0BA]/10"
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#A050F8] to-[#FF7439] text-white transition group-hover:scale-105">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white transition group-hover:scale-105">
                     <Icon size={20} />
                   </div>
                   <h3 className="mt-6 text-xl font-semibold text-white">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-[#9898A6]">{service.summary}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#A050F8]">
+                  <p className="mt-3 text-sm leading-7 text-[#8B93A7]">{service.summary}</p>
+                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#05B0BA]">
                     Learn more <FiArrowRight className="transition group-hover:translate-x-1" />
                   </span>
                 </Link>
@@ -55,7 +55,7 @@ export default function Services() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="rounded-[36px] bg-gradient-to-r from-[#A050F8] to-[#FF7439] p-8 text-white lg:p-12">
+        <div className="rounded-[36px] bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] p-8 text-white lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Not sure where to start?</p>
@@ -63,7 +63,7 @@ export default function Services() {
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
               <p className="text-sm leading-7 text-slate-100">Book a free strategy session and we'll recommend a tailored service mix within days.</p>
-              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#09090B]">
+              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
                 Talk to a strategist <FiArrowRight />
               </Link>
             </div>

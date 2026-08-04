@@ -101,18 +101,18 @@ export default function MediaPage() {
       </div>
 
       {loading ? (
-        <p className="text-[#9898A6]">Loading...</p>
+        <p className="text-[#8B93A7]">Loading...</p>
       ) : rows.length === 0 ? (
-        <div className="rounded-2xl border border-white/10 bg-[#111115] p-10 text-center text-[#6B6B78]">No media uploaded yet.</div>
+        <div className="rounded-2xl border border-white/10 bg-[#141928] p-10 text-center text-[#5B6478]">No media uploaded yet.</div>
       ) : (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {rows.map((item) => (
-            <div key={item._id} className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#111115]">
-              <div className="flex aspect-square items-center justify-center bg-[#09090B]">
+            <div key={item._id} className="group relative overflow-hidden rounded-xl border border-white/10 bg-[#141928]">
+              <div className="flex aspect-square items-center justify-center bg-[#0B0E14]">
                 {item.type === 'image' ? (
                   <img src={item.thumbnailUrl || item.url} alt={item.originalName} className="h-full w-full object-cover" />
                 ) : (
-                  <FiFile size={32} className="text-[#6B6B78]" />
+                  <FiFile size={32} className="text-[#5B6478]" />
                 )}
               </div>
               <div className="p-2">
@@ -132,7 +132,7 @@ export default function MediaPage() {
       )}
 
       {totalPages > 1 && (
-        <div className="mt-4 flex items-center justify-center gap-3 text-sm text-[#9898A6]">
+        <div className="mt-4 flex items-center justify-center gap-3 text-sm text-[#8B93A7]">
           <button
             onClick={() => setPage((p) => Math.max(1, p - 1))}
             disabled={page <= 1}

@@ -137,9 +137,9 @@ export default function ProjectsPage() {
       render: (row) => (
         <div className="flex items-center gap-2">
           <div className="h-1.5 w-24 rounded-full bg-white/10">
-            <div className="h-1.5 rounded-full bg-[#A050F8]" style={{ width: `${row.progress || 0}%` }} />
+            <div className="h-1.5 rounded-full bg-[#05B0BA]" style={{ width: `${row.progress || 0}%` }} />
           </div>
-          <span className="text-xs text-[#9898A6]">{row.progress || 0}%</span>
+          <span className="text-xs text-[#8B93A7]">{row.progress || 0}%</span>
         </div>
       ),
     },
@@ -149,10 +149,10 @@ export default function ProjectsPage() {
       header: '',
       render: (row) => (
         <div className="flex justify-end gap-2">
-          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-white/5 hover:text-white">
+          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-white/5 hover:text-white">
             <FiEdit2 size={16} />
           </button>
-          <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-red-500/10 hover:text-red-400">
+          <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-red-500/10 hover:text-red-400">
             <FiTrash2 size={16} />
           </button>
         </div>
@@ -211,7 +211,7 @@ export default function ProjectsPage() {
             </div>
           )}
           <div>
-            <p className="mb-2 text-sm font-medium text-[#9898A6]">Assigned team</p>
+            <p className="mb-2 text-sm font-medium text-[#8B93A7]">Assigned team</p>
             <div className="max-h-40 space-y-2 overflow-y-auto rounded-xl border border-white/10 p-3">
               {teamMembers.map((m) => (
                 <label key={m._id} className="flex items-center gap-2 text-sm text-[#E4E4E7]">
@@ -219,7 +219,7 @@ export default function ProjectsPage() {
                     type="checkbox"
                     checked={form.assignedTeam.includes(m._id)}
                     onChange={() => toggleTeamMember(m._id)}
-                    className="h-4 w-4 rounded border-white/10 bg-[#09090B]"
+                    className="h-4 w-4 rounded border-white/10 bg-[#0B0E14]"
                   />
                   {m.name}
                 </label>

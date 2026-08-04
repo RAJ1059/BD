@@ -13,11 +13,11 @@ export default function FAQChatGraphic() {
     <div className="relative mx-auto flex h-[360px] w-full max-w-md items-center justify-center sm:h-[420px]">
       <div
         className="absolute h-64 w-64 rounded-full opacity-30 blur-3xl"
-        style={{ background: 'radial-gradient(circle, #FF7439 0%, transparent 70%)' }}
+        style={{ background: 'radial-gradient(circle, #22D3D9 0%, transparent 70%)' }}
       />
-      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[#111115] p-5 shadow-2xl">
-        <div className="mb-4 flex items-center gap-2 text-[#9898A6]">
-          <FiHelpCircle className="text-[#FF7439]" />
+      <div className="relative w-full max-w-sm rounded-2xl border border-white/10 bg-[#141928] p-5 shadow-2xl">
+        <div className="mb-4 flex items-center gap-2 text-[#8B93A7]">
+          <FiHelpCircle className="text-[#22D3D9]" />
           <span className="text-xs font-semibold uppercase tracking-[0.2em]">Live Q&A</span>
         </div>
         <div className="space-y-3">
@@ -31,10 +31,10 @@ export default function FAQChatGraphic() {
             >
               <div
                 className={`flex max-w-[85%] items-center gap-2 rounded-2xl px-4 py-2.5 text-sm ${
-                  bubble.from === 'user' ? 'bg-[#A050F8] text-white' : 'bg-[#09090B] text-slate-200 border border-white/10'
+                  bubble.from === 'user' ? 'bg-[#05B0BA] text-white' : 'bg-[#0B0E14] text-slate-200 border border-white/10'
                 }`}
               >
-                {bubble.from === 'bd' && <FiCheck className="shrink-0 text-[#FF7439]" size={14} />}
+                {bubble.from === 'bd' && <FiCheck className="shrink-0 text-[#22D3D9]" size={14} />}
                 {bubble.text}
               </div>
             </motion.div>

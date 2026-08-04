@@ -115,11 +115,11 @@ export default function RolesPage() {
       header: '',
       render: (row) => (
         <div className="flex justify-end gap-2">
-          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-white/5 hover:text-white">
+          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-white/5 hover:text-white">
             <FiEdit2 size={16} />
           </button>
           {!row.isSystem && (
-            <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-red-500/10 hover:text-red-400">
+            <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-red-500/10 hover:text-red-400">
               <FiTrash2 size={16} />
             </button>
           )}
@@ -150,11 +150,11 @@ export default function RolesPage() {
           <TextArea label="Description" rows={2} value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} />
 
           <div>
-            <p className="mb-2 text-sm font-medium text-[#9898A6]">Permissions</p>
+            <p className="mb-2 text-sm font-medium text-[#8B93A7]">Permissions</p>
             <div className="max-h-96 overflow-auto rounded-xl border border-white/10">
               <table className="w-full text-left text-sm">
-                <thead className="sticky top-0 bg-[#111115]">
-                  <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-[#6B6B78]">
+                <thead className="sticky top-0 bg-[#141928]">
+                  <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-[#5B6478]">
                     <th className="px-4 py-2 font-medium">Module</th>
                     {catalog.actions.map((action) => (
                       <th key={action} className="px-3 py-2 text-center font-medium capitalize">
@@ -175,7 +175,7 @@ export default function RolesPage() {
                               type="checkbox"
                               checked={Boolean(entry?.actions.includes(action))}
                               onChange={() => setForm({ ...form, permissions: togglePermission(form.permissions, module, action) })}
-                              className="h-4 w-4 rounded border-white/10 bg-[#09090B]"
+                              className="h-4 w-4 rounded border-white/10 bg-[#0B0E14]"
                             />
                           </td>
                         ))}

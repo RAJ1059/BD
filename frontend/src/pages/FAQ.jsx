@@ -35,10 +35,10 @@ const faqGroups = [
 
 function FaqItem({ item, isOpen, onToggle }) {
   return (
-    <div className="overflow-hidden rounded-[20px] border border-white/10 bg-[#09090B] transition hover:border-white/20">
+    <div className="overflow-hidden rounded-[20px] border border-white/10 bg-[#0B0E14] transition hover:border-white/20">
       <button className="flex w-full items-center justify-between gap-4 p-5 text-left" onClick={onToggle}>
         <span className="font-semibold text-white">{item.question}</span>
-        <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-[#A050F8] transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}>
+        <span className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white/5 text-[#05B0BA] transition-transform duration-300 ${isOpen ? 'rotate-45' : ''}`}>
           <FiPlus size={16} />
         </span>
       </button>
@@ -51,7 +51,7 @@ function FaqItem({ item, isOpen, onToggle }) {
             transition={{ duration: 0.25 }}
             className="overflow-hidden"
           >
-            <p className="px-5 pb-5 text-sm leading-7 text-[#9898A6]">{item.answer}</p>
+            <p className="px-5 pb-5 text-sm leading-7 text-[#8B93A7]">{item.answer}</p>
           </motion.div>
         )}
       </AnimatePresence>
@@ -63,7 +63,7 @@ export default function FAQ() {
   const [openKey, setOpenKey] = useState('Working together-0')
 
   return (
-    <div className="bg-[#09090B]">
+    <div className="bg-[#0B0E14]">
       <PageHero
         eyebrow="FAQ"
         title="Frequently asked questions about working with us."
@@ -75,7 +75,7 @@ export default function FAQ() {
         <div className="space-y-12">
           {faqGroups.map((group) => (
             <div key={group.category}>
-              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#FF7439]">{group.category}</h2>
+              <h2 className="text-sm font-semibold uppercase tracking-[0.3em] text-[#22D3D9]">{group.category}</h2>
               <div className="mt-5 space-y-4">
                 {group.items.map((item, index) => {
                   const key = `${group.category}-${index}`
@@ -95,10 +95,10 @@ export default function FAQ() {
       </section>
 
       <section className="mx-auto max-w-4xl px-4 pb-16 sm:px-6 lg:px-8">
-        <div className="flex flex-col items-center gap-5 rounded-[32px] border border-white/10 bg-[#111115] p-10 text-center shadow-sm">
+        <div className="flex flex-col items-center gap-5 rounded-[32px] border border-white/10 bg-[#141928] p-10 text-center shadow-sm">
           <h2 className="text-2xl font-semibold text-white">Still have questions?</h2>
-          <p className="max-w-md text-sm leading-7 text-[#9898A6]">Our team is happy to walk through your specific situation on a free strategy call.</p>
-          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#A050F8] to-[#FF7439] px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">
+          <p className="max-w-md text-sm leading-7 text-[#8B93A7]">Our team is happy to walk through your specific situation on a free strategy call.</p>
+          <Link to="/contact" className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.02]">
             Contact us <FiArrowRight />
           </Link>
         </div>

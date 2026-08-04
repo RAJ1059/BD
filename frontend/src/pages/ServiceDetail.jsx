@@ -13,21 +13,21 @@ export default function ServiceDetail() {
   const related = services.filter((s) => s.slug !== service.slug).slice(0, 3)
 
   return (
-    <div className="bg-[#09090B]">
-      <section className="bg-gradient-to-br from-[#09090B] to-[#111115] py-24 text-white">
+    <div className="bg-[#0B0E14]">
+      <section className="bg-gradient-to-br from-[#0B0E14] to-[#141928] py-24 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <Link to="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-[#9898A6] hover:text-white">
+          <Link to="/services" className="inline-flex items-center gap-2 text-sm font-semibold text-[#8B93A7] hover:text-white">
             <FiArrowLeft /> All services
           </Link>
           <div className="mt-6 flex items-center gap-4">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#A050F8] to-[#FF7439] text-white">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white">
               <Icon size={24} />
             </div>
-            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#FF7439]">Service</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#22D3D9]">Service</p>
           </div>
           <h1 className="mt-4 max-w-3xl text-4xl font-semibold sm:text-5xl">{service.title}</h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">{service.description}</p>
-          <Link to="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#A050F8] px-6 py-3 font-semibold text-white transition hover:scale-[1.02]">
+          <Link to="/contact" className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#05B0BA] px-6 py-3 font-semibold text-white transition hover:scale-[1.02]">
             Book a consult <FiArrowRight />
           </Link>
         </div>
@@ -35,17 +35,17 @@ export default function ServiceDetail() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-8 lg:grid-cols-2">
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[32px] border border-white/10 bg-[#111115] p-8 shadow-sm">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[32px] border border-white/10 bg-[#141928] p-8 shadow-sm">
             <h2 className="text-2xl font-semibold text-white">What's included</h2>
             <ul className="mt-6 space-y-4">
               {service.features.map((feature) => (
-                <li key={feature} className="flex items-start gap-3 text-sm leading-7 text-[#9898A6]">
-                  <FiCheckCircle className="mt-0.5 shrink-0 text-[#A050F8]" /> {feature}
+                <li key={feature} className="flex items-start gap-3 text-sm leading-7 text-[#8B93A7]">
+                  <FiCheckCircle className="mt-0.5 shrink-0 text-[#05B0BA]" /> {feature}
                 </li>
               ))}
             </ul>
           </motion.div>
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="rounded-[32px] border border-white/10 bg-gradient-to-br from-[#A050F8] to-[#FF7439] p-8 text-white shadow-sm">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="rounded-[32px] border border-white/10 bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] p-8 text-white shadow-sm">
             <h2 className="text-2xl font-semibold">Why it matters</h2>
             <ul className="mt-6 space-y-4">
               {service.benefits.map((benefit) => (
@@ -59,7 +59,7 @@ export default function ServiceDetail() {
       </section>
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="rounded-[36px] bg-gradient-to-r from-[#A050F8] to-[#FF7439] p-8 text-white lg:p-12">
+        <div className="rounded-[36px] bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] p-8 text-white lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Ready to start?</p>
@@ -67,7 +67,7 @@ export default function ServiceDetail() {
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
               <p className="text-sm leading-7 text-slate-100">Get a free strategy session with our team and a tailored plan within days, not weeks.</p>
-              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#09090B]">
+              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
                 Schedule a call <FiArrowRight />
               </Link>
             </div>
@@ -81,12 +81,12 @@ export default function ServiceDetail() {
           {related.map((item) => {
             const RelIcon = item.icon
             return (
-              <Link key={item.slug} to={`/services/${item.slug}`} className="rounded-[24px] border border-white/10 bg-[#111115] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#A050F8] to-[#FF7439] text-white">
+              <Link key={item.slug} to={`/services/${item.slug}`} className="rounded-[24px] border border-white/10 bg-[#141928] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white">
                   <RelIcon size={18} />
                 </div>
                 <h3 className="mt-4 text-lg font-semibold text-white">{item.title}</h3>
-                <p className="mt-2 text-sm leading-7 text-[#9898A6]">{item.summary}</p>
+                <p className="mt-2 text-sm leading-7 text-[#8B93A7]">{item.summary}</p>
               </Link>
             )
           })}

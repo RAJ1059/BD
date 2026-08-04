@@ -48,7 +48,7 @@ export default function BlogDetail() {
 
   if (status === 'loading') {
     return (
-      <div className="bg-[#09090B] px-4 py-24">
+      <div className="bg-[#0B0E14] px-4 py-24">
         <div className="mx-auto max-w-3xl animate-pulse space-y-4">
           <div className="h-6 w-32 rounded bg-white/10" />
           <div className="h-10 w-full rounded bg-white/10" />
@@ -60,12 +60,12 @@ export default function BlogDetail() {
 
   if (status === 'not-found') {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-[#09090B] px-4 py-20">
-        <div className="max-w-xl rounded-[32px] border border-white/10 bg-[#111115] p-10 text-center shadow-sm">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#A050F8]">404</p>
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#0B0E14] px-4 py-20">
+        <div className="max-w-xl rounded-[32px] border border-white/10 bg-[#141928] p-10 text-center shadow-sm">
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#05B0BA]">404</p>
           <h1 className="mt-4 text-3xl font-semibold text-white">Post not found</h1>
-          <p className="mt-4 text-sm leading-7 text-[#9898A6]">This article may have been unpublished or moved.</p>
-          <Link to="/blog" className="mt-8 inline-flex rounded-full bg-[#A050F8] px-6 py-3 font-semibold text-white">Back to blog</Link>
+          <p className="mt-4 text-sm leading-7 text-[#8B93A7]">This article may have been unpublished or moved.</p>
+          <Link to="/blog" className="mt-8 inline-flex rounded-full bg-[#05B0BA] px-6 py-3 font-semibold text-white">Back to blog</Link>
         </div>
       </div>
     )
@@ -73,22 +73,22 @@ export default function BlogDetail() {
 
   if (status === 'error') {
     return (
-      <div className="flex min-h-[60vh] items-center justify-center bg-[#09090B] px-4 py-20">
-        <div className="max-w-xl rounded-[32px] border border-[#FF7439]/30 bg-[#FF7439]/10 p-10 text-center text-[#FF7439]">{error}</div>
+      <div className="flex min-h-[60vh] items-center justify-center bg-[#0B0E14] px-4 py-20">
+        <div className="max-w-xl rounded-[32px] border border-[#22D3D9]/30 bg-[#22D3D9]/10 p-10 text-center text-[#22D3D9]">{error}</div>
       </div>
     )
   }
 
   return (
-    <div className="bg-[#09090B]">
+    <div className="bg-[#0B0E14]">
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6 lg:px-8">
-        <Link to="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-[#A050F8]">
+        <Link to="/blog" className="inline-flex items-center gap-2 text-sm font-semibold text-[#05B0BA]">
           <FiArrowLeft /> Back to blog
         </Link>
 
-        <p className="mt-8 text-sm font-semibold uppercase tracking-[0.25em] text-[#A050F8]">{post.category?.name || 'General'}</p>
+        <p className="mt-8 text-sm font-semibold uppercase tracking-[0.25em] text-[#05B0BA]">{post.category?.name || 'General'}</p>
         <h1 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">{post.title}</h1>
-        <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-[#6B6B78]">
+        <div className="mt-5 flex flex-wrap items-center gap-4 text-xs text-[#5B6478]">
           <span>{post.author?.name || 'Business Directions'}</span>
           <span>•</span>
           <span>{formatDate(post.publishedAt)}</span>
@@ -104,7 +104,7 @@ export default function BlogDetail() {
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="prose prose-invert mt-10 max-w-none text-[15px] leading-8 text-[#C4C4CC] [&_a]:text-[#A050F8] [&_h2]:mt-8 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:mt-6 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_img]:rounded-2xl [&_p]:mt-4"
+          className="prose prose-invert mt-10 max-w-none text-[15px] leading-8 text-[#C4C4CC] [&_a]:text-[#05B0BA] [&_h2]:mt-8 [&_h2]:text-2xl [&_h2]:font-semibold [&_h2]:text-white [&_h3]:mt-6 [&_h3]:text-xl [&_h3]:font-semibold [&_h3]:text-white [&_img]:rounded-2xl [&_p]:mt-4"
           // Content is authored exclusively by admins through our own CMS (src/pages/BlogDetail.jsx consumes /api/public/blogs/:slug) — never raw user input.
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
@@ -112,7 +112,7 @@ export default function BlogDetail() {
         {post.tags?.length > 0 && (
           <div className="mt-8 flex flex-wrap gap-2">
             {post.tags.map((tag) => (
-              <span key={tag._id} className="rounded-full bg-white/5 px-3 py-1 text-xs text-[#9898A6]">#{tag.name}</span>
+              <span key={tag._id} className="rounded-full bg-white/5 px-3 py-1 text-xs text-[#8B93A7]">#{tag.name}</span>
             ))}
           </div>
         )}
@@ -122,7 +122,7 @@ export default function BlogDetail() {
             <h2 className="text-xl font-semibold text-white">Related posts</h2>
             <div className="mt-5 grid gap-4 sm:grid-cols-3">
               {post.relatedPosts.map((rp) => (
-                <Link key={rp._id} to={`/blog/${rp.slug}`} className="rounded-2xl border border-white/10 bg-[#111115] p-4 transition hover:border-[#A050F8]/40">
+                <Link key={rp._id} to={`/blog/${rp.slug}`} className="rounded-2xl border border-white/10 bg-[#141928] p-4 transition hover:border-[#05B0BA]/40">
                   <p className="text-sm font-semibold text-white">{rp.title}</p>
                 </Link>
               ))}
@@ -135,17 +135,17 @@ export default function BlogDetail() {
 
           <div className="mt-6 space-y-5">
             {post.comments?.map((comment) => (
-              <div key={comment._id} className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+              <div key={comment._id} className="rounded-2xl border border-white/10 bg-[#141928] p-5">
                 <p className="text-sm font-semibold text-white">{comment.name}</p>
-                <p className="mt-1 text-xs text-[#6B6B78]">{formatDate(comment.createdAt)}</p>
-                <p className="mt-3 text-sm leading-7 text-[#9898A6]">{comment.message}</p>
+                <p className="mt-1 text-xs text-[#5B6478]">{formatDate(comment.createdAt)}</p>
+                <p className="mt-3 text-sm leading-7 text-[#8B93A7]">{comment.message}</p>
               </div>
             ))}
-            {!post.comments?.length && <p className="text-sm text-[#6B6B78]">Be the first to comment.</p>}
+            {!post.comments?.length && <p className="text-sm text-[#5B6478]">Be the first to comment.</p>}
           </div>
 
           {commentStatus === 'sent' ? (
-            <div className="mt-8 rounded-2xl border border-[#A050F8]/30 bg-[#A050F8]/10 p-5 text-sm text-white">
+            <div className="mt-8 rounded-2xl border border-[#05B0BA]/30 bg-[#05B0BA]/10 p-5 text-sm text-white">
               Thanks! Your comment has been submitted and is awaiting moderation.
             </div>
           ) : (
@@ -157,7 +157,7 @@ export default function BlogDetail() {
                   onChange={handleCommentChange}
                   required
                   placeholder="Your name"
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-[#A050F8]"
+                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-[#05B0BA]"
                 />
                 <input
                   type="email"
@@ -166,7 +166,7 @@ export default function BlogDetail() {
                   onChange={handleCommentChange}
                   required
                   placeholder="Email (not published)"
-                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-[#A050F8]"
+                  className="w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-[#05B0BA]"
                 />
               </div>
               <textarea
@@ -175,13 +175,13 @@ export default function BlogDetail() {
                 onChange={handleCommentChange}
                 required
                 placeholder="Add a comment"
-                className="min-h-[100px] w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-[#A050F8]"
+                className="min-h-[100px] w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-white outline-none focus:border-[#05B0BA]"
               />
-              {commentError && <p className="text-sm text-[#FF7439]">{commentError}</p>}
+              {commentError && <p className="text-sm text-[#22D3D9]">{commentError}</p>}
               <button
                 type="submit"
                 disabled={commentStatus === 'submitting'}
-                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#A050F8] to-[#FF7439] px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] disabled:opacity-70"
+                className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.02] disabled:opacity-70"
               >
                 {commentStatus === 'submitting' ? 'Submitting…' : <>Post comment <FiSend /></>}
               </button>

@@ -9,7 +9,7 @@ const STATUS_TONES = { active: 'green', inactive: 'neutral', archived: 'red' }
 function Field({ label, value }) {
   return (
     <div>
-      <p className="text-xs text-[#6B6B78]">{label}</p>
+      <p className="text-xs text-[#5B6478]">{label}</p>
       <p className="mt-1 text-sm text-[#E4E4E7]">{value || '—'}</p>
     </div>
   )
@@ -43,11 +43,11 @@ export default function ClientProfilePage() {
       {error && <Banner>{error}</Banner>}
 
       {loading ? (
-        <p className="text-[#9898A6]">Loading profile...</p>
+        <p className="text-[#8B93A7]">Loading profile...</p>
       ) : (
         client && (
           <div className="space-y-6">
-            <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+            <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
               <div className="mb-4 flex items-center justify-between">
                 <h3 className="text-sm font-semibold text-white">{client.companyName}</h3>
                 <Badge tone={STATUS_TONES[client.status]}>{client.status}</Badge>
@@ -65,10 +65,10 @@ export default function ClientProfilePage() {
             </div>
 
             {client.accountManager && (
-              <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+              <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
                 <h3 className="mb-2 text-sm font-semibold text-white">Account Manager</h3>
                 <p className="text-sm text-[#E4E4E7]">{client.accountManager.name}</p>
-                <p className="text-xs text-[#6B6B78]">{client.accountManager.email}</p>
+                <p className="text-xs text-[#5B6478]">{client.accountManager.email}</p>
               </div>
             )}
           </div>

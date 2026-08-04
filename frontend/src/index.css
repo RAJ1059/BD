@@ -6,7 +6,7 @@
   line-height: 1.5;
   font-weight: 400;
   color: #f4f4f8;
-  background-color: #09090b;
+  background-color: #0b0e14;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -20,7 +20,7 @@ html {
 body {
   margin: 0;
   min-width: 320px;
-  background: #09090b;
+  background: #0b0e14;
 }
 
 * {
@@ -41,8 +41,17 @@ button, input, textarea {
 }
 
 @keyframes sun-pulse {
-  0%, 100% { box-shadow: 0 0 40px 10px rgba(160, 80, 248, 0.45), 0 0 90px 30px rgba(255, 116, 57, 0.18); }
-  50% { box-shadow: 0 0 58px 18px rgba(160, 80, 248, 0.6), 0 0 110px 42px rgba(255, 116, 57, 0.28); }
+  0%, 100% { box-shadow: 0 0 30px 8px rgba(5, 176, 186, 0.4), 0 0 70px 22px rgba(34, 211, 217, 0.14); }
+  50% { box-shadow: 0 0 42px 14px rgba(5, 176, 186, 0.55), 0 0 90px 32px rgba(34, 211, 217, 0.22); }
+}
+
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up-anim {
+  animation: fade-up-in 0.7s ease both;
 }
 
 @keyframes orbit-rotate {
@@ -62,7 +71,7 @@ button, input, textarea {
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  box-shadow: 0 0 0 1px rgba(160, 80, 248, 0.03), inset 0 0 40px rgba(160, 80, 248, 0.04);
+  box-shadow: 0 0 0 1px rgba(5, 176, 186, 0.03), inset 0 0 40px rgba(5, 176, 186, 0.04);
 }
 
 .orbit-spin {
@@ -143,7 +152,7 @@ button, input, textarea {
 }
 
 .blog-editor-content a {
-  color: #a050f8;
+  color: #05b0ba;
   text-decoration: underline;
 }
 
@@ -164,8 +173,8 @@ button, input, textarea {
 .blog-editor-content blockquote {
   margin: 1em 0;
   padding-left: 1em;
-  border-left: 3px solid #a050f8;
-  color: #9898a6;
+  border-left: 3px solid #05b0ba;
+  color: #8b93a7;
   font-style: italic;
 }
 
@@ -189,7 +198,7 @@ button, input, textarea {
 }
 
 .blog-editor-content mark {
-  background: rgba(160, 80, 248, 0.35);
+  background: rgba(5, 176, 186, 0.35);
   color: inherit;
   border-radius: 2px;
 }
@@ -197,7 +206,7 @@ button, input, textarea {
 .blog-editor-content p.is-editor-empty:first-child::before {
   content: attr(data-placeholder);
   float: left;
-  color: #6b6b78;
+  color: #5b6478;
   pointer-events: none;
   height: 0;
 }

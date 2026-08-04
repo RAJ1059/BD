@@ -34,21 +34,21 @@ export default function ClientProjectsPage() {
       {error && <Banner>{error}</Banner>}
 
       {loading ? (
-        <p className="text-[#9898A6]">Loading projects...</p>
+        <p className="text-[#8B93A7]">Loading projects...</p>
       ) : projects.length === 0 ? (
         !error && (
-          <div className="rounded-2xl border border-white/10 bg-[#111115] p-8 text-center">
-            <p className="text-sm text-[#6B6B78]">No projects yet. Your account manager will add one once work kicks off.</p>
+          <div className="rounded-2xl border border-white/10 bg-[#141928] p-8 text-center">
+            <p className="text-sm text-[#5B6478]">No projects yet. Your account manager will add one once work kicks off.</p>
           </div>
         )
       ) : (
         <div className="space-y-4">
           {projects.map((project) => (
-            <div key={project._id} className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+            <div key={project._id} className="rounded-2xl border border-white/10 bg-[#141928] p-5">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold text-white">{project.name}</p>
-                  <p className="mt-1 text-xs text-[#6B6B78]">
+                  <p className="mt-1 text-xs text-[#5B6478]">
                     {project.deadline ? `Due ${new Date(project.deadline).toLocaleDateString()}` : 'No deadline set'}
                   </p>
                 </div>
@@ -56,13 +56,13 @@ export default function ClientProjectsPage() {
               </div>
 
               <div className="mt-4">
-                <div className="mb-1 flex items-center justify-between text-xs text-[#9898A6]">
+                <div className="mb-1 flex items-center justify-between text-xs text-[#8B93A7]">
                   <span>Progress</span>
                   <span>{project.progress || 0}%</span>
                 </div>
                 <div className="h-2 rounded-full bg-white/5">
                   <div
-                    className="h-2 rounded-full bg-gradient-to-r from-[#A050F8] to-[#FF7439]"
+                    className="h-2 rounded-full bg-gradient-to-r from-[#05B0BA] to-[#22D3D9]"
                     style={{ width: `${project.progress || 0}%` }}
                   />
                 </div>
@@ -70,7 +70,7 @@ export default function ClientProjectsPage() {
 
               {project.assignedTeam?.length > 0 && (
                 <div className="mt-4 flex items-center gap-2">
-                  <span className="text-xs text-[#6B6B78]">Team:</span>
+                  <span className="text-xs text-[#5B6478]">Team:</span>
                   <div className="flex flex-wrap gap-1">
                     {project.assignedTeam.map((member) => (
                       <span key={member._id} className="rounded-full bg-white/5 px-2.5 py-1 text-xs text-[#E4E4E7]">

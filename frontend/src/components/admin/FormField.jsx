@@ -1,12 +1,12 @@
 const baseInputClass =
-  'mt-1 w-full rounded-xl border border-white/10 bg-[#09090B] px-4 py-2.5 text-sm text-white outline-none focus:border-[#A050F8]'
+  'mt-1 w-full rounded-xl border border-white/10 bg-[#0B0E14] px-4 py-2.5 text-sm text-white outline-none focus:border-[#05B0BA]'
 
 export function Field({ label, children, hint }) {
   return (
     <div>
-      {label && <label className="block text-sm font-medium text-[#9898A6]">{label}</label>}
+      {label && <label className="block text-sm font-medium text-[#8B93A7]">{label}</label>}
       {children}
-      {hint && <p className="mt-1 text-xs text-[#6B6B78]">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-[#5B6478]">{hint}</p>}
     </div>
   )
 }
@@ -39,8 +39,8 @@ export function Select({ label, hint, className = '', children, ...props }) {
 
 export function Checkbox({ label, ...props }) {
   return (
-    <label className="flex items-center gap-2 text-sm text-[#9898A6]">
-      <input type="checkbox" {...props} className="h-4 w-4 rounded border-white/10 bg-[#09090B]" />
+    <label className="flex items-center gap-2 text-sm text-[#8B93A7]">
+      <input type="checkbox" {...props} className="h-4 w-4 rounded border-white/10 bg-[#0B0E14]" />
       {label}
     </label>
   )

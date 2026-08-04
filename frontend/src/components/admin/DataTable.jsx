@@ -16,17 +16,17 @@ export default function DataTable({
   actions,
 }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-[#111115]">
+    <div className="rounded-2xl border border-white/10 bg-[#141928]">
       {(onSearchChange || actions) && (
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 px-5 py-4">
           {onSearchChange ? (
-            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#09090B] px-3 py-2 text-sm">
-              <FiSearch className="text-[#6B6B78]" />
+            <div className="flex items-center gap-2 rounded-xl border border-white/10 bg-[#0B0E14] px-3 py-2 text-sm">
+              <FiSearch className="text-[#5B6478]" />
               <input
                 value={search}
                 onChange={(e) => onSearchChange(e.target.value)}
                 placeholder={searchPlaceholder}
-                className="w-48 bg-transparent text-white outline-none placeholder:text-[#6B6B78]"
+                className="w-48 bg-transparent text-white outline-none placeholder:text-[#5B6478]"
               />
             </div>
           ) : (
@@ -39,7 +39,7 @@ export default function DataTable({
       <div className="overflow-x-auto">
         <table className="w-full text-left text-sm">
           <thead>
-            <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-[#6B6B78]">
+            <tr className="border-b border-white/10 text-xs uppercase tracking-wide text-[#5B6478]">
               {columns.map((col) => (
                 <th key={col.key} className="px-5 py-3 font-medium">
                   {col.header}
@@ -50,7 +50,7 @@ export default function DataTable({
           <tbody>
             {loading ? (
               <tr>
-                <td colSpan={columns.length} className="px-5 py-8 text-center text-[#6B6B78]">
+                <td colSpan={columns.length} className="px-5 py-8 text-center text-[#5B6478]">
                   Loading...
                 </td>
               </tr>
@@ -62,7 +62,7 @@ export default function DataTable({
               </tr>
             ) : rows.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-5 py-8 text-center text-[#6B6B78]">
+                <td colSpan={columns.length} className="px-5 py-8 text-center text-[#5B6478]">
                   {emptyLabel}
                 </td>
               </tr>
@@ -82,7 +82,7 @@ export default function DataTable({
       </div>
 
       {onPageChange && totalPages > 1 && (
-        <div className="flex items-center justify-between border-t border-white/10 px-5 py-3 text-sm text-[#9898A6]">
+        <div className="flex items-center justify-between border-t border-white/10 px-5 py-3 text-sm text-[#8B93A7]">
           <span>
             Page {page} of {totalPages}
           </span>

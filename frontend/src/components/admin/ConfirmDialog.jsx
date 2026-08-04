@@ -3,7 +3,7 @@ import Modal from './Modal'
 export default function ConfirmDialog({ open, onClose, onConfirm, title = 'Are you sure?', description, confirming }) {
   return (
     <Modal open={open} onClose={onClose} title={title} width="max-w-sm">
-      {description && <p className="text-sm text-[#9898A6]">{description}</p>}
+      {description && <p className="text-sm text-[#8B93A7]">{description}</p>}
       <div className="mt-6 flex justify-end gap-3">
         <button
           onClick={onClose}

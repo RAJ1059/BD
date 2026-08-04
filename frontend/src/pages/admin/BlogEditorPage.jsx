@@ -145,7 +145,7 @@ export default function BlogEditorPage() {
     }
   }
 
-  if (loading) return <p className="text-[#9898A6]">Loading...</p>
+  if (loading) return <p className="text-[#8B93A7]">Loading...</p>
 
   return (
     <div>
@@ -178,7 +178,7 @@ export default function BlogEditorPage() {
             onChange={(html) => setForm((f) => ({ ...f, content: html }))}
           />
 
-          <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+          <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
             <h3 className="mb-4 text-sm font-semibold text-white">SEO</h3>
             <div className="space-y-4">
               <TextInput
@@ -208,14 +208,14 @@ export default function BlogEditorPage() {
           </div>
 
           {!isNew && revisions.length > 0 && (
-            <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+            <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
               <h3 className="mb-4 text-sm font-semibold text-white">Revision history</h3>
               <ul className="space-y-2 text-sm">
                 {revisions
                   .slice()
                   .reverse()
                   .map((rev, i) => (
-                    <li key={i} className="flex items-center justify-between text-[#9898A6]">
+                    <li key={i} className="flex items-center justify-between text-[#8B93A7]">
                       <span className="truncate text-[#E4E4E7]">{rev.title}</span>
                       <span className="text-xs">
                         {rev.editedBy?.name || 'Unknown'} · {new Date(rev.editedAt).toLocaleString()}
@@ -227,10 +227,10 @@ export default function BlogEditorPage() {
           )}
 
           {!isNew && (
-            <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+            <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
               <h3 className="mb-4 text-sm font-semibold text-white">Comments</h3>
               {comments.length === 0 ? (
-                <p className="text-sm text-[#6B6B78]">No comments yet.</p>
+                <p className="text-sm text-[#5B6478]">No comments yet.</p>
               ) : (
                 <ul className="space-y-3">
                   {comments.map((c) => (
@@ -239,7 +239,7 @@ export default function BlogEditorPage() {
                         <span className="font-medium text-white">{c.name}</span>
                         <Badge tone={c.approved ? 'green' : 'neutral'}>{c.approved ? 'Approved' : 'Pending'}</Badge>
                       </div>
-                      <p className="mt-1 text-[#9898A6]">{c.message}</p>
+                      <p className="mt-1 text-[#8B93A7]">{c.message}</p>
                       <div className="mt-2 flex gap-2">
                         <button onClick={() => handleModerate(c._id, true)} className="text-xs font-semibold text-emerald-400">
                           Approve
@@ -257,7 +257,7 @@ export default function BlogEditorPage() {
         </div>
 
         <div className="space-y-4">
-          <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+          <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
             <h3 className="mb-4 text-sm font-semibold text-white">Publishing</h3>
             <div className="space-y-4">
               <Select label="Status" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })}>
@@ -278,14 +278,14 @@ export default function BlogEditorPage() {
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+          <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
             <h3 className="mb-4 text-sm font-semibold text-white">Featured image</h3>
             {form.featuredImage ? (
               <div className="mb-3 overflow-hidden rounded-xl border border-white/10">
                 <img src={form.featuredImage.thumbnailUrl || form.featuredImage.url} alt="" className="h-32 w-full object-cover" />
               </div>
             ) : (
-              <div className="mb-3 flex h-32 items-center justify-center rounded-xl border border-dashed border-white/10 text-[#6B6B78]">
+              <div className="mb-3 flex h-32 items-center justify-center rounded-xl border border-dashed border-white/10 text-[#5B6478]">
                 <FiImage size={24} />
               </div>
             )}
@@ -294,7 +294,7 @@ export default function BlogEditorPage() {
             </SecondaryButton>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+          <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
             <h3 className="mb-4 text-sm font-semibold text-white">Category</h3>
             <Select value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })}>
               <option value="">None</option>
@@ -306,7 +306,7 @@ export default function BlogEditorPage() {
             </Select>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-[#111115] p-5">
+          <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
             <h3 className="mb-4 text-sm font-semibold text-white">Tags</h3>
             <div className="flex flex-wrap gap-2">
               {tags.map((t) => (
@@ -315,7 +315,7 @@ export default function BlogEditorPage() {
                   type="button"
                   onClick={() => toggleTag(t._id)}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition ${
-                    form.tags.includes(t._id) ? 'bg-[#A050F8] text-white' : 'bg-white/5 text-[#9898A6] hover:bg-white/10'
+                    form.tags.includes(t._id) ? 'bg-[#05B0BA] text-white' : 'bg-white/5 text-[#8B93A7] hover:bg-white/10'
                   }`}
                 >
                   {t.name}

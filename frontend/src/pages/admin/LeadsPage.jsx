@@ -202,7 +202,7 @@ export default function LeadsPage() {
         <select
           value={row.status}
           onChange={(e) => handleStatusChange(row, e.target.value)}
-          className="rounded-lg border border-white/10 bg-[#09090B] px-2 py-1 text-xs capitalize text-white outline-none"
+          className="rounded-lg border border-white/10 bg-[#0B0E14] px-2 py-1 text-xs capitalize text-white outline-none"
         >
           {STATUSES.map((s) => (
             <option key={s} value={s}>
@@ -217,13 +217,13 @@ export default function LeadsPage() {
       header: '',
       render: (row) => (
         <div className="flex justify-end gap-2">
-          <button onClick={() => openDetail(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-white/5 hover:text-white">
+          <button onClick={() => openDetail(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-white/5 hover:text-white">
             <FiMessageSquare size={16} />
           </button>
-          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-white/5 hover:text-white">
+          <button onClick={() => openEdit(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-white/5 hover:text-white">
             <FiEdit2 size={16} />
           </button>
-          <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#9898A6] transition hover:bg-red-500/10 hover:text-red-400">
+          <button onClick={() => setDeleteTarget(row)} className="rounded-lg p-2 text-[#8B93A7] transition hover:bg-red-500/10 hover:text-red-400">
             <FiTrash2 size={16} />
           </button>
         </div>
@@ -251,7 +251,7 @@ export default function LeadsPage() {
             setPage(1)
           }}
           className={`rounded-full px-4 py-1.5 text-xs font-semibold capitalize transition ${
-            statusFilter === '' ? 'bg-[#A050F8] text-white' : 'bg-white/5 text-[#9898A6] hover:bg-white/10'
+            statusFilter === '' ? 'bg-[#05B0BA] text-white' : 'bg-white/5 text-[#8B93A7] hover:bg-white/10'
           }`}
         >
           All
@@ -264,7 +264,7 @@ export default function LeadsPage() {
               setPage(1)
             }}
             className={`rounded-full px-4 py-1.5 text-xs font-semibold capitalize transition ${
-              statusFilter === s ? 'bg-[#A050F8] text-white' : 'bg-white/5 text-[#9898A6] hover:bg-white/10'
+              statusFilter === s ? 'bg-[#05B0BA] text-white' : 'bg-white/5 text-[#8B93A7] hover:bg-white/10'
             }`}
           >
             {s}
@@ -343,13 +343,13 @@ export default function LeadsPage() {
             </div>
 
             <div>
-              <p className="mb-2 text-sm font-medium text-[#9898A6]">Notes</p>
+              <p className="mb-2 text-sm font-medium text-[#8B93A7]">Notes</p>
               <div className="max-h-48 space-y-2 overflow-y-auto">
-                {(detailLead.notes || []).length === 0 && <p className="text-sm text-[#6B6B78]">No notes yet.</p>}
+                {(detailLead.notes || []).length === 0 && <p className="text-sm text-[#5B6478]">No notes yet.</p>}
                 {(detailLead.notes || []).map((note, i) => (
-                  <div key={i} className="rounded-lg border border-white/10 bg-[#09090B] p-3 text-sm">
+                  <div key={i} className="rounded-lg border border-white/10 bg-[#0B0E14] p-3 text-sm">
                     <p className="text-[#E4E4E7]">{note.text}</p>
-                    <p className="mt-1 text-xs text-[#6B6B78]">
+                    <p className="mt-1 text-xs text-[#5B6478]">
                       {note.author?.name || 'Unknown'} · {new Date(note.createdAt).toLocaleString()}
                     </p>
                   </div>
@@ -360,7 +360,7 @@ export default function LeadsPage() {
                   value={noteText}
                   onChange={(e) => setNoteText(e.target.value)}
                   placeholder="Add a note..."
-                  className="flex-1 rounded-xl border border-white/10 bg-[#09090B] px-4 py-2.5 text-sm text-white outline-none focus:border-[#A050F8]"
+                  className="flex-1 rounded-xl border border-white/10 bg-[#0B0E14] px-4 py-2.5 text-sm text-white outline-none focus:border-[#05B0BA]"
                 />
                 <SecondaryButton type="button" onClick={handleAddNote} disabled={detailBusy}>
                   Add

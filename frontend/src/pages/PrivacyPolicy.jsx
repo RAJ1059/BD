@@ -43,12 +43,12 @@ const sections = [
 
 export default function PrivacyPolicy() {
   return (
-    <div className="bg-[#09090B]">
-      <section className="bg-gradient-to-br from-[#09090B] to-[#111115] py-24 text-white">
+    <div className="bg-[#0B0E14]">
+      <section className="bg-gradient-to-br from-[#0B0E14] to-[#141928] py-24 text-white">
         <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#FF7439]">Legal</p>
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#22D3D9]">Legal</p>
           <h1 className="mt-4 text-4xl font-semibold sm:text-5xl">Privacy Policy</h1>
-          <p className="mt-6 text-sm text-[#9898A6]">Last updated: January 1, 2026</p>
+          <p className="mt-6 text-sm text-[#8B93A7]">Last updated: January 1, 2026</p>
           <p className="mt-4 max-w-2xl text-base leading-8 text-slate-300">
             This Privacy Policy describes how Business Direction ("we," "us," or "our") collects, uses, and protects
             your information when you visit our website or use our services. This is placeholder content for
@@ -60,9 +60,9 @@ export default function PrivacyPolicy() {
       <section className="mx-auto max-w-4xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="space-y-10">
           {sections.map((section) => (
-            <div key={section.title} className="rounded-[24px] border border-white/10 bg-[#111115] p-8 shadow-sm">
+            <div key={section.title} className="rounded-[24px] border border-white/10 bg-[#141928] p-8 shadow-sm">
               <h2 className="text-xl font-semibold text-white">{section.title}</h2>
-              <p className="mt-4 text-sm leading-8 text-[#9898A6]">{section.body}</p>
+              <p className="mt-4 text-sm leading-8 text-[#8B93A7]">{section.body}</p>
             </div>
           ))}
         </div>

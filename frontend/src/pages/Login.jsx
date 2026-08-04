@@ -47,16 +47,16 @@ export default function Login() {
   }
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center bg-[#09090B] px-4 py-20">
-      <div className="w-full max-w-md rounded-[32px] border border-white/10 bg-[#111115] p-10 text-center shadow-sm">
+    <div className="flex min-h-[80vh] items-center justify-center bg-[#0B0E14] px-4 py-20">
+      <div className="w-full max-w-md rounded-[32px] border border-white/10 bg-[#141928] p-10 text-center shadow-sm">
         <img src={logo} alt="Business Directions" className="mx-auto h-10 w-auto" />
 
-        <div className="mx-auto mt-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#A050F8] to-[#FF7439] text-white shadow-[0_0_30px_rgba(160,80,248,0.35)]">
+        <div className="mx-auto mt-8 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white shadow-[0_0_30px_rgba(5, 176, 186,0.35)]">
           <FiLock size={22} />
         </div>
 
         <h1 className="mt-6 text-2xl font-semibold text-white">Client &amp; Team Login</h1>
-        <p className="mt-3 text-sm leading-7 text-[#9898A6]">
+        <p className="mt-3 text-sm leading-7 text-[#8B93A7]">
           Sign in to track projects, invoices, and reports.
         </p>
 
@@ -64,7 +64,7 @@ export default function Login() {
           <GoogleAuthButton onSuccess={handleGoogleSuccess} onError={setError} text="signin_with" />
         </div>
 
-        <div className="mt-6 flex items-center gap-3 text-xs uppercase tracking-wide text-[#6B6B78]">
+        <div className="mt-6 flex items-center gap-3 text-xs uppercase tracking-wide text-[#5B6478]">
           <span className="h-px flex-1 bg-white/10" />
           or
           <span className="h-px flex-1 bg-white/10" />
@@ -78,7 +78,7 @@ export default function Login() {
           )}
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[#9898A6]">
+            <label htmlFor="email" className="block text-sm font-medium text-[#8B93A7]">
               Email
             </label>
             <input
@@ -88,12 +88,12 @@ export default function Login() {
               autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#09090B] px-4 py-3 text-white outline-none focus:border-[#A050F8]"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#0B0E14] px-4 py-3 text-white outline-none focus:border-[#05B0BA]"
             />
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[#9898A6]">
+            <label htmlFor="password" className="block text-sm font-medium text-[#8B93A7]">
               Password
             </label>
             <input
@@ -103,13 +103,13 @@ export default function Login() {
               autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 w-full rounded-xl border border-white/10 bg-[#09090B] px-4 py-3 text-white outline-none focus:border-[#A050F8]"
+              className="mt-1 w-full rounded-xl border border-white/10 bg-[#0B0E14] px-4 py-3 text-white outline-none focus:border-[#05B0BA]"
             />
           </div>
 
           {needsTwoFactor && (
             <div>
-              <label htmlFor="twoFactorCode" className="block text-sm font-medium text-[#9898A6]">
+              <label htmlFor="twoFactorCode" className="block text-sm font-medium text-[#8B93A7]">
                 Two-factor code
               </label>
               <input
@@ -119,17 +119,17 @@ export default function Login() {
                 required
                 value={twoFactorCode}
                 onChange={(e) => setTwoFactorCode(e.target.value)}
-                className="mt-1 w-full rounded-xl border border-white/10 bg-[#09090B] px-4 py-3 text-white outline-none focus:border-[#A050F8]"
+                className="mt-1 w-full rounded-xl border border-white/10 bg-[#0B0E14] px-4 py-3 text-white outline-none focus:border-[#05B0BA]"
               />
             </div>
           )}
 
-          <label className="flex items-center gap-2 text-sm text-[#9898A6]">
+          <label className="flex items-center gap-2 text-sm text-[#8B93A7]">
             <input
               type="checkbox"
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="h-4 w-4 rounded border-white/10 bg-[#09090B]"
+              className="h-4 w-4 rounded border-white/10 bg-[#0B0E14]"
             />
             Remember me
           </label>
@@ -137,13 +137,13 @@ export default function Login() {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full rounded-full bg-[#A050F8] px-6 py-3 font-semibold text-white transition hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
+            className="w-full rounded-full bg-[#05B0BA] px-6 py-3 font-semibold text-white transition hover:scale-[1.02] disabled:opacity-60 disabled:hover:scale-100"
           >
             {submitting ? 'Signing in...' : 'Sign in'}
           </button>
         </form>
 
-        <div className="mt-6 flex items-center gap-3 text-xs uppercase tracking-wide text-[#6B6B78]">
+        <div className="mt-6 flex items-center gap-3 text-xs uppercase tracking-wide text-[#5B6478]">
           <span className="h-px flex-1 bg-white/10" />
           new here
           <span className="h-px flex-1 bg-white/10" />
@@ -151,7 +151,7 @@ export default function Login() {
 
         <Link
           to="/register"
-          className="mt-4 block w-full rounded-full border border-[#A050F8] px-6 py-3 text-center font-semibold text-[#A050F8] transition hover:bg-[#A050F8] hover:text-white"
+          className="mt-4 block w-full rounded-full border border-[#05B0BA] px-6 py-3 text-center font-semibold text-[#05B0BA] transition hover:bg-[#05B0BA] hover:text-white"
         >
           Register
         </Link>

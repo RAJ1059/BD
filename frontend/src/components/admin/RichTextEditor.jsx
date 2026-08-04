@@ -36,7 +36,7 @@ function ToolbarButton({ onClick, active, disabled, title, children }) {
       onClick={onClick}
       disabled={disabled}
       className={`flex h-8 w-8 items-center justify-center rounded-lg text-sm transition disabled:cursor-not-allowed disabled:opacity-30 ${
-        active ? 'bg-[#A050F8] text-white' : 'text-[#9898A6] hover:bg-white/10 hover:text-white'
+        active ? 'bg-[#05B0BA] text-white' : 'text-[#8B93A7] hover:bg-white/10 hover:text-white'
       }`}
     >
       {children}
@@ -96,12 +96,12 @@ export default function RichTextEditor({ label, value, onChange, hint, required 
   return (
     <div>
       {label && (
-        <label className="block text-sm font-medium text-[#9898A6]">
+        <label className="block text-sm font-medium text-[#8B93A7]">
           {label} {required && <span className="text-red-400">*</span>}
         </label>
       )}
-      <div className="mt-1 overflow-hidden rounded-xl border border-white/10 bg-[#09090B]">
-        <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 bg-[#111115] px-2 py-1.5">
+      <div className="mt-1 overflow-hidden rounded-xl border border-white/10 bg-[#0B0E14]">
+        <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 bg-[#141928] px-2 py-1.5">
           <select
             onChange={(e) => {
               const v = e.target.value
@@ -117,7 +117,7 @@ export default function RichTextEditor({ label, value, onChange, hint, required 
                     ? '3'
                     : 'p'
             }
-            className="mr-1 h-8 rounded-lg border border-white/10 bg-[#09090B] px-2 text-xs text-white outline-none"
+            className="mr-1 h-8 rounded-lg border border-white/10 bg-[#0B0E14] px-2 text-xs text-white outline-none"
           >
             <option value="p">Normal text</option>
             <option value="1">Heading 1</option>
@@ -223,7 +223,7 @@ export default function RichTextEditor({ label, value, onChange, hint, required 
 
         <EditorContent editor={editor} className="max-h-[70vh] overflow-y-auto" />
       </div>
-      {hint && <p className="mt-1 text-xs text-[#6B6B78]">{hint}</p>}
+      {hint && <p className="mt-1 text-xs text-[#5B6478]">{hint}</p>}
 
       <MediaPickerModal
         open={pickerOpen}

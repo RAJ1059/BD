@@ -30,7 +30,7 @@ export default function ClientDashboard() {
     }
   }, [])
 
-  if (loading) return <p className="text-[#9898A6]">Loading dashboard...</p>
+  if (loading) return <p className="text-[#8B93A7]">Loading dashboard...</p>
 
   if (error) {
     return (
@@ -53,28 +53,28 @@ export default function ClientDashboard() {
         <StatCard label="Completed" value={projects.completed} />
       </div>
 
-      <div className="mt-6 rounded-2xl border border-white/10 bg-[#111115] p-5">
+      <div className="mt-6 rounded-2xl border border-white/10 bg-[#141928] p-5">
         <div className="mb-4 flex items-center justify-between">
           <h3 className="text-sm font-semibold text-white">Recent Projects</h3>
-          <Link to="/client/projects" className="text-xs font-medium text-[#A050F8] hover:underline">
+          <Link to="/client/projects" className="text-xs font-medium text-[#05B0BA] hover:underline">
             View all
           </Link>
         </div>
         {recentProjects.length === 0 ? (
-          <p className="text-sm text-[#6B6B78]">No projects yet. Your account manager will add one once work kicks off.</p>
+          <p className="text-sm text-[#5B6478]">No projects yet. Your account manager will add one once work kicks off.</p>
         ) : (
           <ul className="divide-y divide-white/5">
             {recentProjects.map((project) => (
               <li key={project._id} className="flex items-center justify-between gap-4 py-3">
                 <div className="min-w-0">
                   <p className="truncate text-sm font-medium text-white">{project.name}</p>
-                  <p className="text-xs text-[#6B6B78]">
+                  <p className="text-xs text-[#5B6478]">
                     {project.deadline ? `Due ${new Date(project.deadline).toLocaleDateString()}` : 'No deadline set'}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <div className="h-1.5 w-24 rounded-full bg-white/10">
-                    <div className="h-1.5 rounded-full bg-[#A050F8]" style={{ width: `${project.progress || 0}%` }} />
+                    <div className="h-1.5 rounded-full bg-[#05B0BA]" style={{ width: `${project.progress || 0}%` }} />
                   </div>
                   <Badge tone={STATUS_TONES[project.status]}>{project.status.replace('_', ' ')}</Badge>
                 </div>
@@ -85,10 +85,10 @@ export default function ClientDashboard() {
       </div>
 
       {client.accountManager && (
-        <div className="mt-6 rounded-2xl border border-white/10 bg-[#111115] p-5">
+        <div className="mt-6 rounded-2xl border border-white/10 bg-[#141928] p-5">
           <h3 className="mb-2 text-sm font-semibold text-white">Your Account Manager</h3>
           <p className="text-sm text-[#E4E4E7]">{client.accountManager.name}</p>
-          <p className="text-xs text-[#6B6B78]">{client.accountManager.email}</p>
+          <p className="text-xs text-[#5B6478]">{client.accountManager.email}</p>
         </div>
       )}
     </div>
