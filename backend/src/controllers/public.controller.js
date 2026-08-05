@@ -7,6 +7,10 @@ import { Tag } from '../models/Tag.js'
 import { Lead } from '../models/Lead.js'
 import { parsePagination, buildMeta } from '../utils/pagination.js'
 import { env } from '../config/env.js'
+import { sendEmail, emailTemplates } from '../services/email.service.js'
+import { logger } from '../config/logger.js'
+
+const LEAD_NOTIFICATION_EMAIL = 'shivraj.singh@tekplus.com'
 
 const PUBLIC_POPULATE = ['category', 'tags', { path: 'author', select: 'name avatar' }, 'featuredImage', 'gallery', 'seo.ogImage']
 
@@ -104,6 +108,11 @@ export const submitContactLead = catchAsync(async (req, res) => {
     source: 'website',
     notes: message ? [{ text: `${service ? `[${service}] ` : ''}${message}` }] : [],
   })
+
+  const { subject, html } = emailTemplates.newLeadNotification({ name, email, phone, service, message })
+  sendEmail({ to: LEAD_NOTIFICATION_EMAIL, subject, html }).catch((err) =>
+    logger.error(`Failed to send lead notification email: ${err.message}`)
+  )
 
   return created(res, { id: lead._id }, 'Thanks! Our team will reach out shortly.')
 })

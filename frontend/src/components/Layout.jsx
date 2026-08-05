@@ -1,8 +1,9 @@
 import { Link, NavLink } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { FiArrowRight, FiMenu, FiX, FiFacebook, FiTwitter, FiLinkedin, FiInstagram, FiLock } from 'react-icons/fi'
+import { FiArrowRight, FiMenu, FiX, FiFacebook, FiTwitter, FiLinkedin, FiInstagram, FiLock, FiZap } from 'react-icons/fi'
 import { useState } from 'react'
 import FloatingSocial from './FloatingSocial'
+import ServiceInquiryModal from './ServiceInquiryModal'
 import logo from '../assets/logo.png'
 
 const primaryNav = [
@@ -17,6 +18,7 @@ const primaryNav = [
 
 export default function Layout({ children }) {
   const [open, setOpen] = useState(false)
+  const [quoteOpen, setQuoteOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-[#0B0E14] text-white">
@@ -41,6 +43,18 @@ export default function Layout({ children }) {
           </nav>
 
           <div className="hidden items-center gap-5 lg:flex">
+            <button
+              onClick={() => setQuoteOpen(true)}
+              className="whitespace-nowrap rounded-full bg-[#22D3D9] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#05B0BA]"
+            >
+              Talk to Experts
+            </button>
+            <Link
+              to="/contact"
+              className="flex items-center gap-1.5 whitespace-nowrap rounded-full bg-[#22D3D9] px-4 py-2 text-xs font-semibold text-white transition hover:bg-[#05B0BA]"
+            >
+              Book a Strategy Call
+            </Link>
             <NavLink
               to="/login"
               className={({ isActive }) =>
@@ -49,12 +63,6 @@ export default function Layout({ children }) {
             >
               <FiLock size={14} /> Login
             </NavLink>
-            <Link
-              to="/contact"
-              className="rounded-full bg-[#22D3D9] px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05B0BA]"
-            >
-              Book a Strategy Call
-            </Link>
           </div>
           <button className="rounded-full border border-white/20 p-2 lg:hidden" onClick={() => setOpen(!open)}>
             {open ? <FiX size={18} /> : <FiMenu size={18} />}
@@ -81,6 +89,15 @@ export default function Layout({ children }) {
                     {item.label}
                   </NavLink>
                 ))}
+                <button
+                  onClick={() => { setOpen(false); setQuoteOpen(true) }}
+                  className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#22D3D9] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05B0BA]"
+                >
+                  <FiZap size={14} /> Talk to Experts
+                </button>
+                <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#22D3D9] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05B0BA]" onClick={() => setOpen(false)}>
+                  Book a Strategy Call <FiArrowRight />
+                </Link>
                 <NavLink
                   to="/login"
                   className={({ isActive }) =>
@@ -90,9 +107,6 @@ export default function Layout({ children }) {
                 >
                   <FiLock size={14} /> Login
                 </NavLink>
-                <Link to="/contact" className="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-[#22D3D9] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#05B0BA]" onClick={() => setOpen(false)}>
-                  Book a Strategy Call <FiArrowRight />
-                </Link>
               </div>
             </motion.div>
           )}
@@ -102,6 +116,8 @@ export default function Layout({ children }) {
       <main>{children}</main>
 
       <FloatingSocial />
+
+      <ServiceInquiryModal isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />
 
       <footer className="border-t border-white/10 bg-[#0B0E14] text-slate-300">
         <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">

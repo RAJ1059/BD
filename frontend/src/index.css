@@ -36,8 +36,10 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.02em;
 }
 
-button, input, textarea {
-  font: inherit;
+@layer base {
+  button, input, textarea {
+    font: inherit;
+  }
 }
 
 @keyframes sun-pulse {

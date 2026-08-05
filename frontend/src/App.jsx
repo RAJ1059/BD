@@ -79,6 +79,8 @@ function App() {
             <Route path="projects" element={<ClientProjectsPage />} />
             <Route path="profile" element={<ClientProfilePage />} />
           </Route>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route
             path="*"
             element={
@@ -95,8 +97,6 @@ function App() {
                   <Route path="/contact" element={<Contact />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                   <Route path="/terms" element={<Terms />} />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/register" element={<Register />} />
                   <Route path="*" element={<NotFound />} />
                 </Routes>
               </Layout>

@@ -54,4 +54,18 @@ export const emailTemplates = {
       html: `<p>A new sign-in was detected.</p><ul><li>Device: ${device}</li><li>IP: ${ip}</li><li>Time: ${time}</li></ul>`,
     }
   },
+  newLeadNotification({ name, email, phone, service, message }) {
+    return {
+      subject: `New website lead: ${name}${service ? ` (${service})` : ''}`,
+      html: `<p>A new lead was submitted on the website.</p>
+        <ul>
+          <li>Name: ${name}</li>
+          <li>Email: ${email}</li>
+          <li>Phone: ${phone || '—'}</li>
+          <li>Service: ${service || '—'}</li>
+        </ul>
+        <p>Project detail:</p>
+        <p>${message || '—'}</p>`,
+    }
+  },
 }
