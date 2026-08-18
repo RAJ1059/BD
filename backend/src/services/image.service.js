@@ -33,3 +33,15 @@ export async function optimizeImage(buffer, { mimeType }) {
 export function isOptimizableImage(mimeType) {
   return ['image/jpeg', 'image/png', 'image/webp'].includes(mimeType)
 }
+
+/**
+ * Explicit opt-in WebP re-encode, used when a caller requests a WebP
+ * variant alongside the original optimized file (kept separate from
+ * optimizeImage so default uploads don't pay the extra storage cost).
+ */
+export async function convertToWebp(buffer, { quality = 82 } = {}) {
+  return sharp(buffer, { failOn: 'none' })
+    .resize({ width: MAX_DIMENSION, height: MAX_DIMENSION, fit: 'inside', withoutEnlargement: true })
+    .webp({ quality })
+    .toBuffer()
+}

@@ -6,7 +6,12 @@ import { Lead } from '../models/Lead.js'
 import { Blog } from '../models/Blog.js'
 import { User } from '../models/User.js'
 import { ActivityLog } from '../models/ActivityLog.js'
-import { env } from '../config/env.js'
+import { Task } from '../models/Task.js'
+import { Campaign } from '../models/Campaign.js'
+import { CampaignClick } from '../models/CampaignClick.js'
+import { FormSubmission } from '../models/FormSubmission.js'
+import { SocialClick } from '../models/SocialClick.js'
+import { fetchIntegrationReport } from '../services/integrations/index.js'
 
 // A widget whose data source (invoicing, ads platforms, email marketing, ...)
 // hasn't been wired up yet. The dashboard UI renders these as "Connect X"
@@ -17,8 +22,26 @@ function notConnected(reason) {
 
 export const getSummary = catchAsync(async (_req, res) => {
   const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000)
+  const sevenDaysFromNow = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+  const now = new Date()
 
-  const [activeClients, runningProjects, completedProjects, publishedBlogPosts, totalLeads, newLeadsThisWeek, recentActivity] = await Promise.all([
+  const [
+    activeClients,
+    runningProjects,
+    completedProjects,
+    publishedBlogPosts,
+    totalLeads,
+    newLeadsThisWeek,
+    recentActivity,
+    tasksDueSoon,
+    tasksOverdue,
+    totalCampaigns,
+    campaignClicksAgg,
+    formSubmissionsTotal,
+    formSubmissionsThisWeek,
+    socialClicksTotal,
+    socialClicksByPlatform,
+  ] = await Promise.all([
     Client.countDocuments({ status: 'active' }),
     Project.countDocuments({ status: 'in_progress' }),
     Project.countDocuments({ status: 'completed' }),
@@ -26,6 +49,18 @@ export const getSummary = catchAsync(async (_req, res) => {
     Lead.countDocuments(),
     Lead.countDocuments({ createdAt: { $gte: sevenDaysAgo } }),
     ActivityLog.find().populate('actor', 'name avatar').sort('-createdAt').limit(10),
+    Task.countDocuments({ status: { $ne: 'done' }, dueDate: { $lte: sevenDaysFromNow } }),
+    Task.countDocuments({ status: { $ne: 'done' }, dueDate: { $lt: now } }),
+    Campaign.countDocuments(),
+    Campaign.aggregate([{ $group: { _id: null, totalClicks: { $sum: '$clickCount' } } }]),
+    FormSubmission.countDocuments(),
+    FormSubmission.countDocuments({ createdAt: { $gte: sevenDaysAgo } }),
+    SocialClick.countDocuments(),
+    SocialClick.aggregate([
+      { $match: { clickedAt: { $gte: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000) } } },
+      { $group: { _id: '$platform', count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+    ]),
   ])
 
   return ok(res, {
@@ -38,10 +73,16 @@ export const getSummary = catchAsync(async (_req, res) => {
     pendingPayments: notConnected('Connect an invoicing workflow to see pending payments'),
     quotationsSent: notConnected('Quotation Generator module is not yet enabled'),
     invoices: notConnected('Invoice Generator module is not yet enabled'),
-    googleAdsPerformance: env.integrations.googleAnalyticsPropertyId ? notConnected('Google Ads reporting not wired yet') : notConnected('Connect Google Ads in Settings > Integrations'),
-    facebookAdsPerformance: env.integrations.metaAccessToken ? notConnected('Meta Ads reporting not wired yet') : notConnected('Connect Meta Ads in Settings > Integrations'),
-    activeCampaigns: notConnected('Campaigns module is not yet enabled'),
-    tasksDue: notConnected('Task management module is not yet enabled'),
+    googleAdsPerformance: notConnected('Connect Google Ads in Settings > Integrations'),
+    facebookAdsPerformance: notConnected('Connect Meta Ads in Settings > Integrations'),
+    activeCampaigns: { available: true, total: totalCampaigns, totalClicks: campaignClicksAgg[0]?.totalClicks || 0 },
+    tasksDue: { available: true, dueSoon: tasksDueSoon, overdue: tasksOverdue },
+    formSubmissions: { available: true, total: formSubmissionsTotal, thisWeek: formSubmissionsThisWeek },
+    socialClicks: {
+      available: true,
+      totalClicks: socialClicksTotal,
+      byPlatform: socialClicksByPlatform.map((r) => ({ platform: r._id, count: r.count })),
+    },
     notifications: notConnected('Notification center is not yet enabled'),
     calendar: notConnected('Calendar integration is not yet enabled'),
     recentActivity,
@@ -85,14 +126,43 @@ export const getCharts = catchAsync(async (req, res) => {
     rate: row.total ? Math.round((row.won / row.total) * 1000) / 10 : 0,
   }))
 
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
+  const [topCampaigns, clicksByDayAgg] = await Promise.all([
+    Campaign.find().sort('-clickCount').limit(5).select('name utmSource utmMedium clickCount'),
+    CampaignClick.aggregate([
+      { $match: { clickedAt: { $gte: thirtyDaysAgo } } },
+      { $group: { _id: { $dateToString: { format: '%Y-%m-%d', date: '$clickedAt' } }, count: { $sum: 1 } } },
+      { $sort: { _id: 1 } },
+    ]),
+  ])
+
+  const campaignRoi = {
+    available: true,
+    note: 'Click-through performance from UTM campaigns; connect Google/Meta Ads in Integrations for spend-based ROI',
+    topCampaigns: topCampaigns.map((c) => ({ name: c.name, source: c.utmSource, medium: c.utmMedium, clickCount: c.clickCount })),
+    clicksByDay: clicksByDayAgg.map((r) => ({ date: r._id, count: r.count })),
+  }
+
+  let trafficGraph = notConnected('Connect Google Analytics 4 in Settings > Integrations')
+  try {
+    const ga4 = await fetchIntegrationReport('google_analytics')
+    if (ga4.available) {
+      trafficGraph = { available: true, ...ga4.data }
+    } else {
+      trafficGraph = notConnected(ga4.reason || 'Connect Google Analytics 4 in Settings > Integrations')
+    }
+  } catch (err) {
+    trafficGraph = notConnected(err.message)
+  }
+
   return ok(res, {
     leadSource: leadSource.map((r) => ({ source: r._id, count: r.count })),
     projectStatus: projectStatus.map((r) => ({ status: r._id, count: r.count })),
     conversionRate,
     teamPerformance,
     monthlyRevenue: notConnected('Connect Invoices to chart monthly revenue'),
-    trafficGraph: notConnected('Connect Google Analytics 4 in Settings > Integrations'),
-    campaignRoi: notConnected('Connect Google Ads / Meta Ads in Settings > Integrations'),
+    trafficGraph,
+    campaignRoi,
   }, 'Dashboard charts')
 })
 

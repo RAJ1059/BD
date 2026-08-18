@@ -11,6 +11,8 @@ const mediaSchema = new mongoose.Schema(
     url: { type: String, required: true },
     thumbnailUrl: { type: String, default: '' },
     thumbnailKey: { type: String, default: '' },
+    webpUrl: { type: String, default: '' },
+    webpKey: { type: String, default: '' },
     storageDriver: { type: String, enum: ['local', 's3', 'cloudinary'], default: 'local' },
     storageKey: { type: String, required: true }, // relative path or S3 key
     folder: { type: String, default: 'general' },

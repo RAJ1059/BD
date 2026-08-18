@@ -2,6 +2,7 @@ import { Router } from 'express'
 import * as publicController from '../controllers/public.controller.js'
 import { validate } from '../middlewares/validate.js'
 import { publicFormLimiter } from '../middlewares/rateLimiter.js'
+import { upload } from '../middlewares/upload.js'
 import { contactLeadValidator, publicCommentValidator } from '../validators/public.validators.js'
 
 const router = Router()
@@ -75,6 +76,9 @@ router.get('/blogs/:slug', publicController.getPublicBlogBySlug)
  */
 router.post('/blogs/:slug/comments', publicFormLimiter, publicCommentValidator, validate, publicController.addPublicComment)
 
+router.get('/pages/:slug', publicController.getPublicPageBySlug)
+router.get('/menus/:slug', publicController.listPublicMenu)
+
 router.get('/categories', publicController.listPublicCategories)
 router.get('/tags', publicController.listPublicTags)
 
@@ -102,5 +106,101 @@ router.get('/tags', publicController.listPublicTags)
  *       201: { description: Lead created from contact form }
  */
 router.post('/contact', publicFormLimiter, contactLeadValidator, validate, publicController.submitContactLead)
+
+router.get('/redirect-check', publicController.checkRedirect)
+router.post('/log-404', publicFormLimiter, publicController.logNotFound)
+
+/**
+ * @openapi
+ * /public/scripts:
+ *   get:
+ *     tags: [Public]
+ *     summary: Get active tracking/marketing scripts for a given page and placement (used by the website to self-inject scripts)
+ *     security: []
+ *     parameters:
+ *       - in: query
+ *         name: path
+ *         schema: { type: string, description: "the requesting page path, e.g. /about" }
+ *       - in: query
+ *         name: placement
+ *         schema: { type: string, enum: [head, body_start, body_end] }
+ *     responses:
+ *       200: { description: Array of scripts for the placement, or grouped by placement if omitted }
+ */
+router.get('/scripts', publicController.getPageScripts)
+
+/**
+ * @openapi
+ * /public/utm/{code}:
+ *   get:
+ *     tags: [Public]
+ *     summary: Resolve a UTM campaign short link, log the click, and redirect to the destination URL
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: code
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       302: { description: Redirect to the campaign's generated UTM URL }
+ *       404: { description: Short link not found }
+ */
+router.get('/utm/:code', publicController.redirectShortLink)
+
+router.get('/social-links', publicController.listPublicSocialLinks)
+
+/**
+ * @openapi
+ * /public/social/{platform}:
+ *   get:
+ *     tags: [Public]
+ *     summary: Log a social link click and redirect to the platform's URL
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: platform
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       302: { description: Redirect to the social platform's URL }
+ *       404: { description: Social link not found or inactive }
+ */
+router.get('/social/:platform', publicController.redirectSocialClick)
+
+/**
+ * @openapi
+ * /public/forms/{slug}:
+ *   get:
+ *     tags: [Public]
+ *     summary: Get a form's field definitions so the website can render it dynamically
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       200: { description: Form name/description/fields }
+ *       404: { description: Not found }
+ */
+router.get('/forms/:slug', publicController.listPublicFormFields)
+
+/**
+ * @openapi
+ * /public/forms/{slug}/submit:
+ *   post:
+ *     tags: [Public]
+ *     summary: Submit a dynamic form (optionally with one file upload)
+ *     security: []
+ *     parameters:
+ *       - in: path
+ *         name: slug
+ *         required: true
+ *         schema: { type: string }
+ *     responses:
+ *       201: { description: Submission recorded }
+ *       404: { description: Not found }
+ */
+router.post('/forms/:slug/submit', publicFormLimiter, upload.single('file'), publicController.submitPublicForm)
 
 export default router

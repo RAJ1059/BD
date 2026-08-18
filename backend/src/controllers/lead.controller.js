@@ -5,6 +5,25 @@ import { Lead } from '../models/Lead.js'
 import { Client } from '../models/Client.js'
 import { recordActivity } from '../services/activityLog.service.js'
 import { parsePagination, buildMeta, parseSort } from '../utils/pagination.js'
+import { exportToCsv, parseCsvBuffer } from '../utils/csv.js'
+
+// Hard cap on export size so a filter-less export can't return millions of rows.
+const EXPORT_MAX_ROWS = 10000
+
+const LEAD_CSV_COLUMNS = [
+  { key: 'companyName', header: 'companyName' },
+  { key: 'contactPerson', header: 'contactPerson' },
+  { key: 'email', header: 'email' },
+  { key: 'phone', header: 'phone' },
+  { key: 'whatsapp', header: 'whatsapp' },
+  { key: 'website', header: 'website' },
+  { key: 'industry', header: 'industry' },
+  { key: 'country', header: 'country' },
+  { key: 'source', header: 'source' },
+  { key: 'status', header: 'status' },
+  { key: 'estimatedValue', header: 'estimatedValue' },
+  { key: 'createdAt', header: 'createdAt' },
+]
 
 export const listLeads = catchAsync(async (req, res) => {
   const { page, limit, skip } = parsePagination(req.query)
@@ -124,4 +143,57 @@ export const deleteLead = catchAsync(async (req, res) => {
   await lead.deleteOne()
   await recordActivity(req, { action: 'delete', module: 'leads', targetId: lead._id, description: `Deleted lead "${lead.companyName}"` })
   return noContent(res, 'Lead deleted')
+})
+
+export const exportLeadsCsv = catchAsync(async (req, res) => {
+  const filter = {}
+  if (req.query.status) filter.status = req.query.status
+  if (req.query.source) filter.source = req.query.source
+  if (req.query.assignedTo) filter.assignedTo = req.query.assignedTo
+  if (req.query.search) filter.$text = { $search: req.query.search }
+
+  const leads = await Lead.find(filter).sort('-createdAt').limit(EXPORT_MAX_ROWS).lean()
+  const rows = leads.map((l) => ({ ...l, createdAt: l.createdAt?.toISOString() }))
+
+  exportToCsv(res, 'leads.csv', LEAD_CSV_COLUMNS, rows)
+})
+
+export const importLeadsCsv = catchAsync(async (req, res) => {
+  if (!req.file) throw ApiError.badRequest('No file uploaded')
+
+  const csvRows = parseCsvBuffer(req.file.buffer)
+
+  const rows = csvRows.map((row) => ({
+    companyName: row.companyName,
+    contactPerson: row.contactPerson,
+    email: row.email,
+    phone: row.phone || '',
+    whatsapp: row.whatsapp || '',
+    website: row.website || '',
+    industry: row.industry || '',
+    country: row.country || '',
+    source: row.source || undefined,
+    status: row.status || undefined,
+    estimatedValue: row.estimatedValue ? Number(row.estimatedValue) : 0,
+    createdBy: req.user._id,
+  }))
+
+  let imported = 0
+  let failed = 0
+  const errors = []
+
+  try {
+    const result = await Lead.insertMany(rows, { ordered: false })
+    imported = result.length
+    failed = rows.length - imported
+  } catch (err) {
+    const writeErrors = err.writeErrors || []
+    imported = rows.length - writeErrors.length
+    failed = writeErrors.length
+    errors.push(...writeErrors.slice(0, 10).map((e) => e.err?.errmsg || e.errmsg || e.message))
+    if (!writeErrors.length) errors.push(err.message)
+  }
+
+  await recordActivity(req, { action: 'import', module: 'leads', description: `Imported ${imported} leads` })
+  return created(res, { imported, failed, errors }, `Imported ${imported} leads`)
 })

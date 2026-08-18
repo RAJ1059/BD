@@ -56,6 +56,8 @@ export default function DashboardHome() {
   const leadSourceMax = Math.max(1, ...(charts?.leadSource || []).map((r) => r.count))
   const projectStatusMax = Math.max(1, ...(charts?.projectStatus || []).map((r) => r.count))
   const teamMax = Math.max(1, ...(team?.byRole || []).map((r) => r.count))
+  const socialClicksMax = Math.max(1, ...(summary.socialClicks?.byPlatform || []).map((r) => r.count))
+  const campaignMax = Math.max(1, ...(charts?.campaignRoi?.topCampaigns || []).map((r) => r.clickCount))
 
   return (
     <div>
@@ -69,7 +71,30 @@ export default function DashboardHome() {
         <StatCard label="Total Leads" value={summary.leads.total} hint={`${summary.leads.newThisWeek} new this week`} />
         <StatCard label="Revenue" connected={false} hint={summary.revenue?.reason} />
         <StatCard label="Pending Payments" connected={false} hint={summary.pendingPayments?.reason} />
-        <StatCard label="Active Campaigns" connected={false} hint={summary.activeCampaigns?.reason} />
+        <StatCard
+          label="Active Campaigns"
+          connected={summary.activeCampaigns?.available}
+          value={summary.activeCampaigns?.total}
+          hint={summary.activeCampaigns?.available ? `${summary.activeCampaigns.totalClicks} total clicks` : summary.activeCampaigns?.reason}
+        />
+        <StatCard
+          label="Tasks Due Soon"
+          connected={summary.tasksDue?.available}
+          value={summary.tasksDue?.dueSoon}
+          hint={summary.tasksDue?.available ? `${summary.tasksDue.overdue} overdue` : summary.tasksDue?.reason}
+        />
+        <StatCard
+          label="Form Submissions"
+          connected={summary.formSubmissions?.available}
+          value={summary.formSubmissions?.total}
+          hint={summary.formSubmissions?.available ? `${summary.formSubmissions.thisWeek} this week` : summary.formSubmissions?.reason}
+        />
+        <StatCard
+          label="Social Clicks"
+          connected={summary.socialClicks?.available}
+          value={summary.socialClicks?.totalClicks}
+          hint={summary.socialClicks?.reason}
+        />
       </div>
 
       <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -99,6 +124,30 @@ export default function DashboardHome() {
             <p className="text-sm text-[#5B6478]">No team members yet.</p>
           ) : (
             team.byRole.map((row) => <Bar key={row.name} label={row.name} count={row.count} max={teamMax} />)
+          )}
+        </div>
+      </div>
+
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
+          <h3 className="mb-4 text-sm font-semibold text-white">Social Clicks by Platform</h3>
+          {(summary.socialClicks?.byPlatform || []).length === 0 ? (
+            <p className="text-sm text-[#5B6478]">No social clicks yet.</p>
+          ) : (
+            summary.socialClicks.byPlatform.map((row) => (
+              <Bar key={row.platform} label={row.platform} count={row.count} max={socialClicksMax} />
+            ))
+          )}
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-[#141928] p-5">
+          <h3 className="mb-4 text-sm font-semibold text-white">Top Campaigns</h3>
+          {(charts?.campaignRoi?.topCampaigns || []).length === 0 ? (
+            <p className="text-sm text-[#5B6478]">No campaigns yet.</p>
+          ) : (
+            charts.campaignRoi.topCampaigns.map((row) => (
+              <Bar key={row.name} label={row.name} count={row.clickCount} max={campaignMax} />
+            ))
           )}
         </div>
       </div>

@@ -4,6 +4,7 @@ import * as clientController from '../controllers/client.controller.js'
 import { authenticate } from '../middlewares/auth.js'
 import { authorize } from '../middlewares/rbac.js'
 import { validate } from '../middlewares/validate.js'
+import { upload } from '../middlewares/upload.js'
 import { createClientValidator, updateClientValidator, clientIdValidator } from '../validators/client.validators.js'
 
 const router = Router()
@@ -11,6 +12,8 @@ const router = Router()
 router.use(authenticate)
 
 router.get('/', authorize('clients', 'view'), clientController.listClients)
+router.get('/export', authorize('clients', 'export'), clientController.exportClientsCsv)
+router.post('/import', authorize('clients', 'create'), upload.single('file'), clientController.importClientsCsv)
 router.get('/:id', authorize('clients', 'view'), clientIdValidator, validate, clientController.getClient)
 router.post('/', authorize('clients', 'create'), createClientValidator, validate, clientController.createClient)
 router.patch('/:id', authorize('clients', 'edit'), updateClientValidator, validate, clientController.updateClient)

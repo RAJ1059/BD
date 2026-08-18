@@ -12,6 +12,8 @@ const ALLOWED_MIME_TYPES = [
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   'application/zip',
   'video/mp4',
+  'text/csv',
+  'application/vnd.ms-excel', // Windows/Excel often reports CSVs with this mimetype
 ]
 
 const storage = multer.memoryStorage()

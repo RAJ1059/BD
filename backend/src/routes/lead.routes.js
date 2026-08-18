@@ -4,6 +4,7 @@ import * as leadController from '../controllers/lead.controller.js'
 import { authenticate } from '../middlewares/auth.js'
 import { authorize } from '../middlewares/rbac.js'
 import { validate } from '../middlewares/validate.js'
+import { upload } from '../middlewares/upload.js'
 import {
   createLeadValidator,
   updateLeadValidator,
@@ -57,6 +58,8 @@ router.use(authenticate)
  *       201: { description: Lead created }
  */
 router.get('/', authorize('leads', 'view'), leadController.listLeads)
+router.get('/export', authorize('leads', 'export'), leadController.exportLeadsCsv)
+router.post('/import', authorize('leads', 'create'), upload.single('file'), leadController.importLeadsCsv)
 router.get('/:id', authorize('leads', 'view'), leadIdValidator, validate, leadController.getLead)
 router.post('/', authorize('leads', 'create'), createLeadValidator, validate, leadController.createLead)
 router.patch('/:id', authorize('leads', 'edit'), updateLeadValidator, validate, leadController.updateLead)

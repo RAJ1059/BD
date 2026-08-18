@@ -5,7 +5,7 @@ import { ApiError } from '../utils/ApiError.js'
 import { ok, created, noContent } from '../utils/ApiResponse.js'
 import { Media } from '../models/Media.js'
 import { storageService } from '../services/storage.service.js'
-import { optimizeImage, isOptimizableImage } from '../services/image.service.js'
+import { optimizeImage, isOptimizableImage, convertToWebp } from '../services/image.service.js'
 import { recordActivity } from '../services/activityLog.service.js'
 import { parsePagination, buildMeta } from '../utils/pagination.js'
 
@@ -29,6 +29,8 @@ export const uploadMedia = catchAsync(async (req, res) => {
   let height
   let thumbnailUrl = ''
   let thumbnailKey = ''
+  let webpUrl = ''
+  let webpKey = ''
   let fileBuffer = buffer
 
   if (isOptimizableImage(mimetype)) {
@@ -41,6 +43,14 @@ export const uploadMedia = catchAsync(async (req, res) => {
     const thumbSaved = await storageService.save(optimized.thumbnail, { key: thumbKey, mimeType: 'image/jpeg' })
     thumbnailUrl = thumbSaved.url
     thumbnailKey = thumbSaved.storageKey
+
+    if (req.body.convertToWebp === 'true') {
+      const webpBuffer = await convertToWebp(buffer)
+      const webpFileKey = path.posix.join(folder, `${baseName}.webp`)
+      const webpSaved = await storageService.save(webpBuffer, { key: webpFileKey, mimeType: 'image/webp' })
+      webpUrl = webpSaved.url
+      webpKey = webpSaved.storageKey
+    }
   }
 
   const saved = await storageService.save(fileBuffer, { key, mimeType: mimetype })
@@ -54,6 +64,8 @@ export const uploadMedia = catchAsync(async (req, res) => {
     url: saved.url,
     thumbnailUrl,
     thumbnailKey,
+    webpUrl,
+    webpKey,
     storageDriver: saved.storageDriver,
     storageKey: saved.storageKey,
     folder,
@@ -96,6 +108,9 @@ export const deleteMedia = catchAsync(async (req, res) => {
   await storageService.remove({ storageDriver: media.storageDriver, storageKey: media.storageKey })
   if (media.thumbnailKey) {
     await storageService.remove({ storageDriver: media.storageDriver, storageKey: media.thumbnailKey })
+  }
+  if (media.webpKey) {
+    await storageService.remove({ storageDriver: media.storageDriver, storageKey: media.webpKey })
   }
   await media.deleteOne()
 

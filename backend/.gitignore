@@ -6,3 +6,4 @@ uploads/documents/*
 !uploads/documents/.gitkeep
 logs
 *.log
+backups

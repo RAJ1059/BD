@@ -2,6 +2,8 @@ import { createApp } from './app.js'
 import { connectDB } from './config/db.js'
 import { env } from './config/env.js'
 import { logger } from './config/logger.js'
+import { startScheduler } from './services/cronScheduler.service.js'
+import { startJobWorker } from './services/jobQueue.service.js'
 
 async function main() {
   await connectDB()
@@ -11,6 +13,18 @@ async function main() {
     logger.info(`${env.appName} API listening on http://localhost:${env.port}`)
     logger.info(`Swagger docs: http://localhost:${env.port}/api/docs`)
   })
+
+  try {
+    await startScheduler()
+  } catch (err) {
+    logger.error(`Failed to start cron scheduler: ${err.message}`)
+  }
+
+  try {
+    startJobWorker()
+  } catch (err) {
+    logger.error(`Failed to start job worker: ${err.message}`)
+  }
 
   const shutdown = (signal) => {
     logger.info(`${signal} received, shutting down gracefully...`)

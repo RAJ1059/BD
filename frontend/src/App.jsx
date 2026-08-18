@@ -31,6 +31,26 @@ import CategoriesPage from './pages/admin/CategoriesPage'
 import TagsPage from './pages/admin/TagsPage'
 import MediaPage from './pages/admin/MediaPage'
 import ActivityLogsPage from './pages/admin/ActivityLogsPage'
+import SocialLinksPage from './pages/admin/SocialLinksPage'
+import RedirectsPage from './pages/admin/RedirectsPage'
+import TasksPage from './pages/admin/TasksPage'
+import CampaignsPage from './pages/admin/CampaignsPage'
+import FormsPage from './pages/admin/FormsPage'
+import FormSubmissionsPage from './pages/admin/FormSubmissionsPage'
+import MenusPage from './pages/admin/MenusPage'
+import PagesPage from './pages/admin/PagesPage'
+import PageEditorPage from './pages/admin/PageEditorPage'
+import ScriptsPage from './pages/admin/ScriptsPage'
+import SettingsPage from './pages/admin/SettingsPage'
+import IntegrationsPage from './pages/admin/IntegrationsPage'
+import WebhooksPage from './pages/admin/WebhooksPage'
+import ApiKeysPage from './pages/admin/ApiKeysPage'
+import CronJobsPage from './pages/admin/CronJobsPage'
+import BackupsPage from './pages/admin/BackupsPage'
+import JobsPage from './pages/admin/JobsPage'
+import ErrorLogsPage from './pages/admin/ErrorLogsPage'
+import NotFoundLogsPage from './pages/admin/NotFoundLogsPage'
+import IpRulesPage from './pages/admin/IpRulesPage'
 import ClientLayout from './layouts/ClientLayout'
 import ClientDashboard from './pages/client/ClientDashboard'
 import ClientProjectsPage from './pages/client/ClientProjectsPage'
@@ -66,6 +86,27 @@ function App() {
             <Route path="tags" element={<TagsPage />} />
             <Route path="media" element={<MediaPage />} />
             <Route path="activity-logs" element={<ActivityLogsPage />} />
+            <Route path="pages" element={<PagesPage />} />
+            <Route path="pages/new" element={<PageEditorPage />} />
+            <Route path="pages/:id" element={<PageEditorPage />} />
+            <Route path="menus" element={<MenusPage />} />
+            <Route path="tasks" element={<TasksPage />} />
+            <Route path="campaigns" element={<CampaignsPage />} />
+            <Route path="social-links" element={<SocialLinksPage />} />
+            <Route path="forms" element={<FormsPage />} />
+            <Route path="forms/:id/submissions" element={<FormSubmissionsPage />} />
+            <Route path="scripts" element={<ScriptsPage />} />
+            <Route path="redirects" element={<RedirectsPage />} />
+            <Route path="not-found-logs" element={<NotFoundLogsPage />} />
+            <Route path="ip-rules" element={<IpRulesPage />} />
+            <Route path="api-keys" element={<ApiKeysPage />} />
+            <Route path="webhooks" element={<WebhooksPage />} />
+            <Route path="cron-jobs" element={<CronJobsPage />} />
+            <Route path="jobs" element={<JobsPage />} />
+            <Route path="backups" element={<BackupsPage />} />
+            <Route path="error-logs" element={<ErrorLogsPage />} />
+            <Route path="integrations" element={<IntegrationsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Route>
           <Route
             path="/client"

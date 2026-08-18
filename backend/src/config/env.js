@@ -54,12 +54,28 @@ export const env = {
   },
 
   mail: {
+    driver: required('MAIL_DRIVER', 'smtp'),
     host: required('SMTP_HOST', ''),
     port: Number(required('SMTP_PORT', 587)),
     secure: required('SMTP_SECURE', 'false') === 'true',
     user: required('SMTP_USER', ''),
     pass: required('SMTP_PASS', ''),
     from: required('MAIL_FROM', 'Business Direction <no-reply@businessdirection.com>'),
+  },
+
+  sendgridApiKey: required('SENDGRID_API_KEY', ''),
+  mailgunApiKey: required('MAILGUN_API_KEY', ''),
+  mailgunDomain: required('MAILGUN_DOMAIN', ''),
+
+  awsSes: {
+    region: required('AWS_SES_REGION', required('AWS_REGION', '')),
+    accessKeyId: required('AWS_SES_ACCESS_KEY_ID', ''),
+    secretAccessKey: required('AWS_SES_SECRET_ACCESS_KEY', ''),
+  },
+
+  notifications: {
+    slackWebhookUrl: required('SLACK_WEBHOOK_URL', ''),
+    discordWebhookUrl: required('DISCORD_WEBHOOK_URL', ''),
   },
 
   rateLimit: {
