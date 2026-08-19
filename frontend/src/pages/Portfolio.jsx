@@ -1,11 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { FiArrowRight } from 'react-icons/fi'
 import PageHero from '../components/PageHero'
 import PortfolioStackGraphic from '../components/graphics/PortfolioStackGraphic'
+import { api } from '../lib/api'
 
-const projects = [
+const DEFAULT_HERO = {
+  eyebrow: 'Portfolio',
+  title: 'Selected work that blends strategy, design, and growth.',
+  description: "A curated look at how we've helped ambitious brands turn strategy into measurable outcomes.",
+}
+
+const DEFAULT_INDUSTRIES = ['Healthcare', 'Fintech', 'Retail', 'Technology']
+
+const DEFAULT_PROJECTS = [
   { title: 'Northstar Health', category: 'SEO + Web', industry: 'Healthcare', description: 'Repositioning a healthcare brand for higher trust and stronger lead capture.', img: 'https://picsum.photos/seed/northstar/800/600', result: '+142% qualified leads' },
   { title: 'Aurelia Capital', category: 'PPC + Analytics', industry: 'Fintech', description: 'Paid media expansion with a sharper funnel and stronger attribution reporting.', img: 'https://picsum.photos/seed/aurelia/800/600', result: '4.8x paid media efficiency' },
   { title: 'Lumen Retail', category: 'Ecommerce Growth', industry: 'Retail', description: 'Growth design and CRO improvements for a modern retail experience.', img: 'https://picsum.photos/seed/lumen/800/600', result: '+67% ecommerce conversion' },
@@ -14,24 +23,53 @@ const projects = [
   { title: 'Ridgeline Supply', category: 'Web + Automation', industry: 'Retail', description: 'A rebuilt storefront paired with lifecycle automation for repeat buyers.', img: 'https://picsum.photos/seed/ridgeline/800/600', result: '+41% repeat purchase rate' },
 ]
 
-const industries = ['All', 'Healthcare', 'Fintech', 'Retail', 'Technology']
+const DEFAULT_CTA = {
+  eyebrow: 'Like what you see?',
+  heading: "Let's build your next case study together.",
+  description: "Tell us about your goals and we'll show you how we'd approach your project.",
+  buttonText: 'Start a project',
+  buttonLink: '/contact',
+}
+
+const DEFAULT_SECTIONS = { hero: DEFAULT_HERO, industries: DEFAULT_INDUSTRIES, projects: DEFAULT_PROJECTS, cta: DEFAULT_CTA }
+
+function isFilled(value) {
+  if (Array.isArray(value)) return value.length > 0
+  if (value && typeof value === 'object') return Object.keys(value).length > 0
+  return Boolean(value)
+}
 
 export default function Portfolio() {
   const [filter, setFilter] = useState('All')
+  const [content, setContent] = useState(DEFAULT_SECTIONS)
+
+  useEffect(() => {
+    api
+      .get('/public/page-content/portfolio')
+      .then((res) => {
+        const fetched = res.data?.sections || {}
+        setContent((prev) => {
+          const next = { ...prev }
+          for (const key of Object.keys(fetched)) {
+            if (isFilled(fetched[key])) next[key] = fetched[key]
+          }
+          return next
+        })
+      })
+      .catch(() => {})
+  }, [])
+
+  const { hero, industries, projects, cta } = content
+  const filterOptions = ['All', ...industries]
   const filtered = filter === 'All' ? projects : projects.filter((p) => p.industry === filter)
 
   return (
     <div className="bg-[#0B0E14]">
-      <PageHero
-        eyebrow="Portfolio"
-        title="Selected work that blends strategy, design, and growth."
-        description="A curated look at how we've helped ambitious brands turn strategy into measurable outcomes."
-        graphic={<PortfolioStackGraphic />}
-      />
+      <PageHero eyebrow={hero.eyebrow} title={hero.title} description={hero.description} graphic={<PortfolioStackGraphic />} />
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-wrap gap-3">
-          {industries.map((industry) => (
+          {filterOptions.map((industry) => (
             <button
               key={industry}
               onClick={() => setFilter(industry)}
@@ -83,13 +121,13 @@ export default function Portfolio() {
         <div className="rounded-[36px] bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] p-8 text-white lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Like what you see?</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Let's build your next case study together.</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">{cta.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{cta.heading}</h2>
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
-              <p className="text-sm leading-7 text-slate-100">Tell us about your goals and we'll show you how we'd approach your project.</p>
-              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
-                Start a project <FiArrowRight />
+              <p className="text-sm leading-7 text-slate-100">{cta.description}</p>
+              <Link to={cta.buttonLink} className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
+                {cta.buttonText} <FiArrowRight />
               </Link>
             </div>
           </div>

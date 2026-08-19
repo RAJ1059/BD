@@ -1,37 +1,104 @@
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { FiAward, FiCompass, FiTarget, FiUsers, FiArrowRight, FiLinkedin } from 'react-icons/fi'
+import { FiArrowRight, FiLinkedin } from 'react-icons/fi'
 import PageHero from '../components/PageHero'
 import Counter from '../components/Counter'
+import { api } from '../lib/api'
+import { getIcon } from '../lib/iconRegistry'
 
-const stats = [
+const DEFAULT_HERO = {
+  eyebrow: 'About Business Direction',
+  title: 'An elite growth partner for companies ready to scale.',
+  description: 'We unite strategy, design, and digital execution to help ambitious brands win in crowded markets with confidence.',
+}
+
+const DEFAULT_STATS = [
   { value: '8+', label: 'years in business' },
   { value: '320+', label: 'brands served' },
   { value: '94%', label: 'client retention' },
   { value: '12', label: 'countries reached' },
 ]
 
-const values = [
+const DEFAULT_MISSION = {
+  heading: 'Our mission',
+  description: 'To help businesses grow through thoughtful digital strategy, modern websites, high-performing campaigns, and brand experiences that create lasting value.',
+}
+
+const DEFAULT_VISION = {
+  heading: 'Our vision',
+  description: 'To become the go-to growth partner for companies that want premium execution and measurable business impact.',
+}
+
+const DEFAULT_VALUES = [
   { title: 'Clarity', desc: 'We simplify complex growth challenges into clear, focused action.' },
   { title: 'Momentum', desc: 'We move with urgency and maintain momentum from strategy to launch.' },
   { title: 'Precision', desc: 'Every decision is grounded in insight, performance data, and intent.' },
 ]
 
-const team = [
+const DEFAULT_WHY_US = [
+  { icon: 'FiTarget', title: 'Focused strategy', desc: 'We define the highest-impact growth initiatives first.' },
+  { icon: 'FiUsers', title: 'Deep collaboration', desc: 'You get a partner that acts like an extension of your team.' },
+  { icon: 'FiCompass', title: 'Cohesive execution', desc: 'Brand, product, and performance are aligned from the start.' },
+  { icon: 'FiAward', title: 'Proven results', desc: 'We measure what matters and optimize with discipline.' },
+]
+
+const DEFAULT_TEAM = [
   { name: 'Nadia Brooks', role: 'Founder & CEO', img: 'https://picsum.photos/seed/nadia/400/400' },
   { name: 'Caleb Torres', role: 'Strategy Director', img: 'https://picsum.photos/seed/caleb/400/400' },
   { name: 'Maya Patel', role: 'Creative Lead', img: 'https://picsum.photos/seed/maya/400/400' },
   { name: 'Owen Reyes', role: 'Head of Engineering', img: 'https://picsum.photos/seed/owen/400/400' },
 ]
 
+const DEFAULT_CTA = {
+  eyebrow: 'Join our team',
+  heading: "We're always looking for ambitious talent.",
+  description: "Curious, craft-obsessed people do their best work here. Let's talk about your next chapter.",
+  buttonText: 'Get in touch',
+  buttonLink: '/contact',
+}
+
+const DEFAULT_SECTIONS = {
+  hero: DEFAULT_HERO,
+  stats: DEFAULT_STATS,
+  mission: DEFAULT_MISSION,
+  vision: DEFAULT_VISION,
+  values: DEFAULT_VALUES,
+  whyUs: DEFAULT_WHY_US,
+  team: DEFAULT_TEAM,
+  cta: DEFAULT_CTA,
+}
+
+function isFilled(value) {
+  if (Array.isArray(value)) return value.length > 0
+  if (value && typeof value === 'object') return Object.keys(value).length > 0
+  return Boolean(value)
+}
+
 export default function About() {
+  const [content, setContent] = useState(DEFAULT_SECTIONS)
+
+  useEffect(() => {
+    api
+      .get('/public/page-content/about')
+      .then((res) => {
+        const fetched = res.data?.sections || {}
+        setContent((prev) => {
+          const next = { ...prev }
+          for (const key of Object.keys(fetched)) {
+            if (isFilled(fetched[key])) next[key] = fetched[key]
+          }
+          return next
+        })
+      })
+      .catch(() => {})
+  }, [])
+
+  const { hero, stats, mission, vision, values, whyUs, team, cta } = content
+
   return (
     <div className="bg-[#0B0E14]">
-      <PageHero
-        eyebrow="About Business Direction"
-        title="An elite growth partner for companies ready to scale."
-        description="We unite strategy, design, and digital execution to help ambitious brands win in crowded markets with confidence."
-      >
+      <PageHero eyebrow={hero.eyebrow} title={hero.title} description={hero.description}>
         <div className="mt-10 grid max-w-2xl grid-cols-2 gap-4 sm:grid-cols-4">
           {stats.map((stat) => (
             <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/5 p-4">
@@ -45,12 +112,12 @@ export default function About() {
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-10 lg:grid-cols-[1fr_0.9fr]">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="rounded-[32px] border border-white/10 bg-[#141928] p-8 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-            <h2 className="text-3xl font-semibold text-white">Our mission</h2>
-            <p className="mt-5 text-base leading-8 text-[#8B93A7]">To help businesses grow through thoughtful digital strategy, modern websites, high-performing campaigns, and brand experiences that create lasting value.</p>
+            <h2 className="text-3xl font-semibold text-white">{mission.heading}</h2>
+            <p className="mt-5 text-base leading-8 text-[#8B93A7]">{mission.description}</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }} className="rounded-[32px] border border-white/10 bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] p-8 text-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
-            <h2 className="text-3xl font-semibold">Our vision</h2>
-            <p className="mt-5 text-base leading-8 text-slate-100">To become the go-to growth partner for companies that want premium execution and measurable business impact.</p>
+            <h2 className="text-3xl font-semibold">{vision.heading}</h2>
+            <p className="mt-5 text-base leading-8 text-slate-100">{vision.description}</p>
           </motion.div>
         </div>
       </section>
@@ -77,8 +144,8 @@ export default function About() {
             <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">We bring senior-level thinking to every engagement.</h2>
           </div>
           <div className="grid gap-6 md:grid-cols-2">
-            {[{ icon: FiTarget, title: 'Focused strategy', desc: 'We define the highest-impact growth initiatives first.' }, { icon: FiUsers, title: 'Deep collaboration', desc: 'You get a partner that acts like an extension of your team.' }, { icon: FiCompass, title: 'Cohesive execution', desc: 'Brand, product, and performance are aligned from the start.' }, { icon: FiAward, title: 'Proven results', desc: 'We measure what matters and optimize with discipline.' }].map((item, index) => {
-              const Icon = item.icon
+            {whyUs.map((item, index) => {
+              const Icon = getIcon(item.icon)
               return (
                 <motion.div key={item.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.06 }} className="rounded-[24px] border border-white/10 bg-[#141928] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white"><Icon size={20} /></div>
@@ -122,13 +189,13 @@ export default function About() {
         <div className="rounded-[36px] bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] p-8 text-white lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Join our team</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">We're always looking for ambitious talent.</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">{cta.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{cta.heading}</h2>
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
-              <p className="text-sm leading-7 text-slate-100">Curious, craft-obsessed people do their best work here. Let's talk about your next chapter.</p>
-              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
-                Get in touch <FiArrowRight />
+              <p className="text-sm leading-7 text-slate-100">{cta.description}</p>
+              <Link to={cta.buttonLink} className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
+                {cta.buttonText} <FiArrowRight />
               </Link>
             </div>
           </div>

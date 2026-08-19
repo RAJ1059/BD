@@ -1,15 +1,27 @@
+import { useEffect, useState } from 'react'
 import { Link, useParams, Navigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowRight, FiCheckCircle, FiArrowLeft } from 'react-icons/fi'
-import { getServiceBySlug, services } from '../data/services'
+import { servicesApi } from '../api/services'
+import { getIcon } from '../lib/iconRegistry'
 
 export default function ServiceDetail() {
   const { slug } = useParams()
-  const service = getServiceBySlug(slug)
+  const [services, setServices] = useState(null)
 
+  useEffect(() => {
+    servicesApi
+      .list()
+      .then((res) => setServices(res.data))
+      .catch(() => setServices([]))
+  }, [])
+
+  if (services === null) return <div className="min-h-[60vh] bg-[#0B0E14]" />
+
+  const service = services.find((s) => s.slug === slug)
   if (!service) return <Navigate to="/services" replace />
 
-  const Icon = service.icon
+  const Icon = getIcon(service.icon)
   const related = services.filter((s) => s.slug !== service.slug).slice(0, 3)
 
   return (
@@ -79,7 +91,7 @@ export default function ServiceDetail() {
         <h2 className="text-2xl font-semibold text-white">Related services</h2>
         <div className="mt-8 grid gap-6 md:grid-cols-3">
           {related.map((item) => {
-            const RelIcon = item.icon
+            const RelIcon = getIcon(item.icon)
             return (
               <Link key={item.slug} to={`/services/${item.slug}`} className="rounded-[24px] border border-white/10 bg-[#141928] p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-xl">
                 <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white">

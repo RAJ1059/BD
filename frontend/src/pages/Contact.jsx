@@ -1,32 +1,83 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import {
-  FiMail, FiMapPin, FiPhone, FiClock, FiUser, FiBriefcase, FiMessageSquare,
-  FiArrowRight, FiCheckCircle, FiSend,
-} from 'react-icons/fi'
-import { FaFacebookF, FaInstagram, FaWhatsapp, FaLinkedinIn, FaTwitter } from 'react-icons/fa'
-import { services } from '../data/services'
+import { FiUser, FiMail, FiPhone, FiBriefcase, FiMessageSquare, FiArrowRight, FiCheckCircle, FiSend } from 'react-icons/fi'
 import { api } from '../lib/api'
+import { servicesApi } from '../api/services'
+import { getIcon } from '../lib/iconRegistry'
 
-const socialLinks = [
-  { icon: FaFacebookF, label: 'Facebook', href: '#' },
-  { icon: FaTwitter, label: 'Twitter', href: '#' },
-  { icon: FaLinkedinIn, label: 'LinkedIn', href: '#' },
-  { icon: FaInstagram, label: 'Instagram', href: '#' },
-  { icon: FaWhatsapp, label: 'WhatsApp', href: '#' },
+const DEFAULT_HERO = {
+  eyebrow: 'Contact',
+  title: "Let's create your next growth chapter.",
+  description: 'Tell us about your goals and a strategist will get back to you within one business day.',
+  bullet1: 'Free strategy consultation',
+  bullet2: 'Response within 24 hours',
+}
+
+const DEFAULT_INFO_ITEMS = [
+  { icon: 'FiMail', label: 'Email us', value: 'hello@businessdirection.com' },
+  { icon: 'FiPhone', label: 'Call us', value: '+1 (415) 555-1040' },
+  { icon: 'FiMapPin', label: 'Visit us', value: '210 Market Street, San Francisco, CA' },
+  { icon: 'FiClock', label: 'Working hours', value: 'Mon – Fri, 9:00 AM – 6:00 PM PST' },
 ]
 
-const infoItems = [
-  { icon: FiMail, label: 'Email us', value: 'hello@businessdirection.com' },
-  { icon: FiPhone, label: 'Call us', value: '+1 (415) 555-1040' },
-  { icon: FiMapPin, label: 'Visit us', value: '210 Market Street, San Francisco, CA' },
-  { icon: FiClock, label: 'Working hours', value: 'Mon – Fri, 9:00 AM – 6:00 PM PST' },
+const DEFAULT_SOCIAL_LINKS = [
+  { icon: 'FaFacebookF', label: 'Facebook', href: '#' },
+  { icon: 'FaTwitter', label: 'Twitter', href: '#' },
+  { icon: 'FaLinkedinIn', label: 'LinkedIn', href: '#' },
+  { icon: 'FaInstagram', label: 'Instagram', href: '#' },
+  { icon: 'FaWhatsapp', label: 'WhatsApp', href: '#' },
 ]
+
+const DEFAULT_CTA = {
+  eyebrow: 'Prefer a quick call?',
+  heading: 'Book a free 30-minute strategy session.',
+  description: 'No pressure, no pitch decks — just a candid conversation about your growth goals.',
+  buttonText: 'Schedule a call',
+  buttonLink: '#',
+}
+
+const DEFAULT_SECTIONS = {
+  hero: DEFAULT_HERO,
+  infoItems: DEFAULT_INFO_ITEMS,
+  socialLinks: DEFAULT_SOCIAL_LINKS,
+  cta: DEFAULT_CTA,
+}
+
+function isFilled(value) {
+  if (Array.isArray(value)) return value.length > 0
+  if (value && typeof value === 'object') return Object.keys(value).length > 0
+  return Boolean(value)
+}
 
 export default function Contact() {
   const [status, setStatus] = useState('idle')
   const [error, setError] = useState('')
   const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' })
+  const [content, setContent] = useState(DEFAULT_SECTIONS)
+  const [services, setServices] = useState([])
+
+  useEffect(() => {
+    api
+      .get('/public/page-content/contact')
+      .then((res) => {
+        const fetched = res.data?.sections || {}
+        setContent((prev) => {
+          const next = { ...prev }
+          for (const key of Object.keys(fetched)) {
+            if (isFilled(fetched[key])) next[key] = fetched[key]
+          }
+          return next
+        })
+      })
+      .catch(() => {})
+
+    servicesApi
+      .list()
+      .then((res) => setServices(res.data))
+      .catch(() => setServices([]))
+  }, [])
+
+  const { hero, infoItems, socialLinks, cta } = content
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }))
@@ -50,14 +101,12 @@ export default function Contact() {
       <section className="relative overflow-hidden bg-gradient-to-br from-[#0B0E14] via-[#141928] to-[#0d1f3a] py-24 text-white">
         <div className="absolute inset-0 opacity-30" style={{ backgroundImage: 'radial-gradient(circle at top right, #22D3D9 0%, transparent 40%)' }} />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#22D3D9]">Contact</p>
-          <h1 className="mt-4 max-w-3xl text-4xl font-semibold sm:text-5xl">Let's create your next growth chapter.</h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-            Tell us about your goals and a strategist will get back to you within one business day.
-          </p>
+          <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#22D3D9]">{hero.eyebrow}</p>
+          <h1 className="mt-4 max-w-3xl text-4xl font-semibold sm:text-5xl">{hero.title}</h1>
+          <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">{hero.description}</p>
           <div className="mt-8 flex flex-wrap gap-6 text-sm text-slate-300">
-            <div className="flex items-center gap-2"><FiCheckCircle className="text-[#22D3D9]" /> Free strategy consultation</div>
-            <div className="flex items-center gap-2"><FiCheckCircle className="text-[#22D3D9]" /> Response within 24 hours</div>
+            <div className="flex items-center gap-2"><FiCheckCircle className="text-[#22D3D9]" /> {hero.bullet1}</div>
+            <div className="flex items-center gap-2"><FiCheckCircle className="text-[#22D3D9]" /> {hero.bullet2}</div>
           </div>
         </div>
       </section>
@@ -78,7 +127,7 @@ export default function Contact() {
               </p>
               <div className="mt-8 space-y-5">
                 {infoItems.map((item) => {
-                  const Icon = item.icon
+                  const Icon = getIcon(item.icon)
                   return (
                     <div key={item.label} className="flex items-start gap-4">
                       <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white">
@@ -98,7 +147,7 @@ export default function Contact() {
               <p className="text-xs font-semibold uppercase tracking-[0.25em] text-[#5B6478]">Follow us</p>
               <div className="mt-4 flex gap-3">
                 {socialLinks.map((item) => {
-                  const Icon = item.icon
+                  const Icon = getIcon(item.icon)
                   return (
                     <a
                       key={item.label}
@@ -242,13 +291,13 @@ export default function Contact() {
         <div className="rounded-[36px] bg-gradient-to-r from-[#05B0BA] to-[#22D3D9] p-8 text-white lg:p-12">
           <div className="grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Prefer a quick call?</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Book a free 30-minute strategy session.</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">{cta.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{cta.heading}</h2>
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
-              <p className="text-sm leading-7 text-slate-100">No pressure, no pitch decks — just a candid conversation about your growth goals.</p>
-              <a href="#" className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
-                Schedule a call <FiArrowRight />
+              <p className="text-sm leading-7 text-slate-100">{cta.description}</p>
+              <a href={cta.buttonLink} className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-[#0B0E14]">
+                {cta.buttonText} <FiArrowRight />
               </a>
             </div>
           </div>

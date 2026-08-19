@@ -1,13 +1,26 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { FiArrowRight, FiCheckCircle } from 'react-icons/fi'
-import { services } from '../data/services'
 import PageHero from '../components/PageHero'
 import LaptopCodeGraphic from '../components/graphics/LaptopCodeGraphic'
+import { servicesApi } from '../api/services'
+import { getIcon } from '../lib/iconRegistry'
 
 const trustPoints = ['15 specialized service lines', '40+ certified strategists', '98% client satisfaction']
 
 export default function Services() {
+  const [services, setServices] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    servicesApi
+      .list()
+      .then((res) => setServices(res.data))
+      .catch(() => setServices([]))
+      .finally(() => setLoading(false))
+  }, [])
+
   return (
     <div className="bg-[#0B0E14]">
       <PageHero
@@ -25,32 +38,38 @@ export default function Services() {
 
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-          {services.map((service, index) => {
-            const Icon = service.icon
-            return (
-              <motion.div
-                key={service.slug}
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.04 }}
-              >
-                <Link
-                  to={`/services/${service.slug}`}
-                  className="group block h-full rounded-[28px] border border-white/10 bg-[#141928] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#05B0BA]/50 hover:shadow-xl hover:shadow-[#05B0BA]/10"
+          {loading &&
+            Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-56 animate-pulse rounded-[28px] border border-white/10 bg-[#141928]" />
+            ))}
+
+          {!loading &&
+            services.map((service, index) => {
+              const Icon = getIcon(service.icon)
+              return (
+                <motion.div
+                  key={service.slug}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.04 }}
                 >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white transition group-hover:scale-105">
-                    <Icon size={20} />
-                  </div>
-                  <h3 className="mt-6 text-xl font-semibold text-white">{service.title}</h3>
-                  <p className="mt-3 text-sm leading-7 text-[#8B93A7]">{service.summary}</p>
-                  <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#05B0BA]">
-                    Learn more <FiArrowRight className="transition group-hover:translate-x-1" />
-                  </span>
-                </Link>
-              </motion.div>
-            )
-          })}
+                  <Link
+                    to={`/services/${service.slug}`}
+                    className="group block h-full rounded-[28px] border border-white/10 bg-[#141928] p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#05B0BA]/50 hover:shadow-xl hover:shadow-[#05B0BA]/10"
+                  >
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#05B0BA] to-[#22D3D9] text-white transition group-hover:scale-105">
+                      <Icon size={20} />
+                    </div>
+                    <h3 className="mt-6 text-xl font-semibold text-white">{service.title}</h3>
+                    <p className="mt-3 text-sm leading-7 text-[#8B93A7]">{service.summary}</p>
+                    <span className="mt-6 inline-flex items-center gap-2 text-sm font-semibold text-[#05B0BA]">
+                      Learn more <FiArrowRight className="transition group-hover:translate-x-1" />
+                    </span>
+                  </Link>
+                </motion.div>
+              )
+            })}
         </div>
       </section>
 

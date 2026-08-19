@@ -5,6 +5,8 @@ import { ApiError } from '../utils/ApiError.js'
 import { ok, created } from '../utils/ApiResponse.js'
 import { Blog } from '../models/Blog.js'
 import { Page } from '../models/Page.js'
+import { PageContent } from '../models/PageContent.js'
+import { Service } from '../models/Service.js'
 import { Menu } from '../models/Menu.js'
 import { Category } from '../models/Category.js'
 import { Tag } from '../models/Tag.js'
@@ -120,6 +122,23 @@ export const getPublicPageBySlug = catchAsync(async (req, res) => {
   if (!page) throw ApiError.notFound('Page not found')
 
   return ok(res, page, 'Page')
+})
+
+export const getPublicPageContent = catchAsync(async (req, res) => {
+  const item = await PageContent.findOne({ pageKey: req.params.pageKey }).populate('seo.ogImage')
+  if (!item) throw ApiError.notFound('Page content not found')
+  return ok(res, { sections: item.sections, seo: item.seo }, 'Page content')
+})
+
+export const listPublicServices = catchAsync(async (_req, res) => {
+  const items = await Service.find({ isActive: true }).sort('order title')
+  return ok(res, items, 'Services')
+})
+
+export const getPublicServiceBySlug = catchAsync(async (req, res) => {
+  const service = await Service.findOne({ slug: req.params.slug, isActive: true })
+  if (!service) throw ApiError.notFound('Service not found')
+  return ok(res, service, 'Service')
 })
 
 export const listPublicMenu = catchAsync(async (req, res) => {

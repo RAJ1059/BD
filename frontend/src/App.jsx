@@ -40,6 +40,10 @@ import FormSubmissionsPage from './pages/admin/FormSubmissionsPage'
 import MenusPage from './pages/admin/MenusPage'
 import PagesPage from './pages/admin/PagesPage'
 import PageEditorPage from './pages/admin/PageEditorPage'
+import PageContentPage from './pages/admin/PageContentPage'
+import PageContentEditorPage from './pages/admin/PageContentEditorPage'
+import ServicesContentPage from './pages/admin/ServicesContentPage'
+import ServiceContentEditorPage from './pages/admin/ServiceContentEditorPage'
 import ScriptsPage from './pages/admin/ScriptsPage'
 import SettingsPage from './pages/admin/SettingsPage'
 import IntegrationsPage from './pages/admin/IntegrationsPage'
@@ -90,6 +94,11 @@ function App() {
             <Route path="pages/new" element={<PageEditorPage />} />
             <Route path="pages/:id" element={<PageEditorPage />} />
             <Route path="menus" element={<MenusPage />} />
+            <Route path="page-content" element={<PageContentPage />} />
+            <Route path="page-content/:pageKey" element={<PageContentEditorPage />} />
+            <Route path="services-content" element={<ServicesContentPage />} />
+            <Route path="services-content/new" element={<ServiceContentEditorPage />} />
+            <Route path="services-content/:id" element={<ServiceContentEditorPage />} />
             <Route path="tasks" element={<TasksPage />} />
             <Route path="campaigns" element={<CampaignsPage />} />
             <Route path="social-links" element={<SocialLinksPage />} />

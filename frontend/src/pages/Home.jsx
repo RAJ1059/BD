@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { FiArrowRight, FiCheckCircle, FiZap, FiShield, FiSearch, FiTarget, FiMonitor, FiMail as FiMailIcon } from 'react-icons/fi'
+import { FiArrowRight, FiCheckCircle, FiMail as FiMailIcon } from 'react-icons/fi'
 import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Autoplay } from 'swiper/modules'
@@ -11,55 +11,121 @@ import LogoMarquee from '../components/LogoMarquee'
 import ProcessStepper from '../components/ProcessStepper'
 import TiltCard from '../components/TiltCard'
 import { api } from '../lib/api'
+import { getIcon } from '../lib/iconRegistry'
 
-const homeServices = [
-  { title: 'SEO Strategy', desc: 'Technical, on-page, and enterprise SEO that compounds visibility.', icon: FiSearch, slug: 'seo' },
-  { title: 'Google Ads (PPC)', desc: 'High-intent campaigns engineered for qualified pipeline.', icon: FiTarget, slug: 'google-ads-ppc' },
-  { title: 'Social Media', desc: 'Content-led growth for social channels that convert attention.', icon: FiZap, slug: 'social-media-marketing' },
-  { title: 'Web & App Development', desc: 'React and WordPress experiences built to scale.', icon: FiMonitor, slug: 'react-wordpress-development' },
+const DEFAULT_HERO = {
+  badge: 'Technology & growth partner for ambitious brands',
+  heading: 'Turn bold ambition into',
+  headingHighlight: 'measurable digital growth.',
+  subheading: 'Business Direction combines strategy, creative, and performance marketing to build enterprise-grade experiences that convert.',
+  ctaPrimaryText: 'Schedule a Discovery Call',
+  ctaPrimaryLink: '/contact',
+  ctaSecondaryText: 'Explore Services',
+  ctaSecondaryLink: '/services',
+  trustBullet1: 'Award-winning team',
+  trustBullet2: 'Fast, transparent execution',
+}
+
+const DEFAULT_PLATFORMS = ['HubSpot', 'Salesforce', 'Webflow', 'Shopify', 'Google Ads', 'Meta Ads', 'Slack']
+const DEFAULT_CREDENTIALS = ['Google Partner', 'Meta Business Partner', 'HubSpot Solutions Partner', 'Microsoft Advertising']
+
+const DEFAULT_SERVICES = [
+  { title: 'SEO Strategy', desc: 'Technical, on-page, and enterprise SEO that compounds visibility.', icon: 'FiSearch', slug: 'seo' },
+  { title: 'Google Ads (PPC)', desc: 'High-intent campaigns engineered for qualified pipeline.', icon: 'FiTarget', slug: 'google-ads-ppc' },
+  { title: 'Social Media', desc: 'Content-led growth for social channels that convert attention.', icon: 'FiZap', slug: 'social-media-marketing' },
+  { title: 'Web & App Development', desc: 'React and WordPress experiences built to scale.', icon: 'FiMonitor', slug: 'react-wordpress-development' },
 ]
 
-const stats = [
+const DEFAULT_ABOUT = {
+  eyebrow: 'About Business Direction',
+  heading: 'A strategic agency for modern growth challenges.',
+  description: 'We blend consulting rigor with marketing creativity to help ambitious brands scale with clarity, confidence, and measurable momentum.',
+}
+const DEFAULT_ABOUT_BULLETS = ['Senior-led strategy and execution', 'Transparent reporting and KPI visibility', 'Cross-channel campaigns designed for conversion']
+
+const DEFAULT_STATS = [
   { value: '150+', label: 'projects delivered' },
   { value: '40+', label: 'active clients' },
   { value: '92%', label: 'client retention' },
   { value: '6', label: 'industries served' },
 ]
 
-const credentials = ['Google Partner', 'Meta Business Partner', 'HubSpot Solutions Partner', 'Microsoft Advertising']
+const DEFAULT_WHY_CHOOSE_US = [
+  { title: 'Enterprise-ready execution', desc: 'Cross-functional teams that move quickly without sacrificing quality.' },
+  { title: 'Analytics-led approach', desc: 'Every campaign is measured, optimized, and tied to business outcomes.' },
+  { title: 'Brand elevation', desc: 'Refined creative that improves perception and conversion alike.' },
+  { title: 'Full-funnel strategy', desc: 'From awareness to loyalty, we design for measurable growth.' },
+]
 
-const industries = ['Healthcare', 'Fintech', 'Retail', 'Manufacturing', 'Technology', 'Education']
-
-const processSteps = [
+const DEFAULT_PROCESS = [
   { title: 'Discover', desc: 'We audit your brand, market, and funnel to uncover the highest-leverage growth opportunities.' },
   { title: 'Design', desc: 'Strategy, creative, and experience design come together into a unified growth plan.' },
   { title: 'Launch', desc: 'Campaigns, websites, and content go live with precision and quality assurance.' },
   { title: 'Optimize', desc: 'Continuous testing and reporting keep performance compounding month over month.' },
 ]
 
-const portfolioItems = [
+const DEFAULT_INDUSTRIES = ['Healthcare', 'Fintech', 'Retail', 'Manufacturing', 'Technology', 'Education']
+
+const DEFAULT_PORTFOLIO = [
   { title: 'Northstar Health', tag: 'SEO + Web', img: 'https://picsum.photos/seed/northstar/640/480' },
   { title: 'Aurelia Capital', tag: 'PPC + Analytics', img: 'https://picsum.photos/seed/aurelia/640/480' },
   { title: 'Lumen Retail', tag: 'Ecommerce Growth', img: 'https://picsum.photos/seed/lumen/640/480' },
 ]
 
-const testimonials = [
+const DEFAULT_TESTIMONIALS = [
   { quote: 'A thoughtful partner that brought strategy, design, and performance together as one team.', name: 'Mina Chen', role: 'CMO, Northstar Health' },
   { quote: 'Their ability to turn insights into growth was exceptional from day one.', name: 'Darren Brooks', role: 'VP Marketing, Aurelia Capital' },
   { quote: 'The website launch elevated both our brand and our conversion rate immediately.', name: 'Sofia Alvarez', role: 'Founder, Lumen Retail' },
   { quote: 'Reporting is transparent and the team acts like a true extension of ours.', name: 'Grace Whitfield', role: 'Head of Growth, Crest Labs' },
 ]
 
-
-const faqs = [
+const DEFAULT_FAQS = [
   { q: 'What types of businesses do you work with?', a: 'We collaborate with ambitious companies across healthcare, fintech, retail, SaaS, and professional services.' },
   { q: 'Can you support both strategy and execution?', a: 'Yes. We lead both the planning and hands-on delivery of campaigns, websites, and creative systems.' },
   { q: 'Do you offer ongoing retainer support?', a: 'Absolutely. Many clients choose a retainer model for continuous optimization and growth support.' },
 ]
 
+const DEFAULT_CTA_BANNER = {
+  eyebrow: "Let's build momentum",
+  heading: 'Ready for a growth partner with enterprise-level standards?',
+  description: 'From strategy workshops to launch execution, we help growth-minded companies move faster with clarity and confidence.',
+  buttonText: 'Start your project',
+  buttonLink: '/contact',
+}
+
+const DEFAULT_NEWSLETTER = {
+  heading: 'Growth insights, straight to your inbox.',
+  description: 'Join hundreds of marketing leaders getting our monthly playbook on SEO, paid media, and conversion design.',
+}
+
+const DEFAULT_SECTIONS = {
+  hero: DEFAULT_HERO,
+  platforms: DEFAULT_PLATFORMS,
+  credentials: DEFAULT_CREDENTIALS,
+  services: DEFAULT_SERVICES,
+  about: DEFAULT_ABOUT,
+  aboutBullets: DEFAULT_ABOUT_BULLETS,
+  stats: DEFAULT_STATS,
+  whyChooseUs: DEFAULT_WHY_CHOOSE_US,
+  process: DEFAULT_PROCESS,
+  industries: DEFAULT_INDUSTRIES,
+  portfolio: DEFAULT_PORTFOLIO,
+  testimonials: DEFAULT_TESTIMONIALS,
+  faqs: DEFAULT_FAQS,
+  ctaBanner: DEFAULT_CTA_BANNER,
+  newsletter: DEFAULT_NEWSLETTER,
+}
+
+function isFilled(value) {
+  if (Array.isArray(value)) return value.length > 0
+  if (value && typeof value === 'object') return Object.keys(value).length > 0
+  return Boolean(value)
+}
+
 export default function Home() {
   const [blogPosts, setBlogPosts] = useState([])
   const [blogLoading, setBlogLoading] = useState(true)
+  const [content, setContent] = useState(DEFAULT_SECTIONS)
 
   useEffect(() => {
     api
@@ -67,7 +133,23 @@ export default function Home() {
       .then((res) => setBlogPosts(res.data))
       .catch(() => setBlogPosts([]))
       .finally(() => setBlogLoading(false))
+
+    api
+      .get('/public/page-content/home')
+      .then((res) => {
+        const fetched = res.data?.sections || {}
+        setContent((prev) => {
+          const next = { ...prev }
+          for (const key of Object.keys(fetched)) {
+            if (isFilled(fetched[key])) next[key] = fetched[key]
+          }
+          return next
+        })
+      })
+      .catch(() => {})
   }, [])
+
+  const { hero, platforms, credentials, services, about, aboutBullets, stats, whyChooseUs, process, industries, portfolio, testimonials, faqs, ctaBanner, newsletter } = content
 
   return (
     <div className="overflow-hidden bg-[#0B0E14]">
@@ -78,25 +160,23 @@ export default function Home() {
           <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65 }} className="min-w-0">
             <div className="mb-5 inline-flex max-w-full items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 backdrop-blur">
               <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#22D3D9]" style={{ animation: 'sun-pulse 2.4s ease-in-out infinite' }} />
-              <span className="whitespace-normal">Technology & growth partner for ambitious brands</span>
+              <span className="whitespace-normal">{hero.badge}</span>
             </div>
             <h1 className="max-w-2xl text-4xl font-semibold leading-tight sm:text-5xl lg:text-6xl">
-              Turn bold ambition into <span className="bg-gradient-to-r from-[#22D3D9] to-[#05B0BA] bg-clip-text text-transparent">measurable digital growth.</span>
+              {hero.heading} <span className="bg-gradient-to-r from-[#22D3D9] to-[#05B0BA] bg-clip-text text-transparent">{hero.headingHighlight}</span>
             </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">
-              Business Direction combines strategy, creative, and performance marketing to build enterprise-grade experiences that convert.
-            </p>
+            <p className="mt-6 max-w-xl text-lg leading-8 text-slate-300">{hero.subheading}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link to="/contact" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#05B0BA] px-6 py-3 font-semibold text-white transition hover:scale-[1.02]">
-                Schedule a Discovery Call <FiArrowRight />
+              <Link to={hero.ctaPrimaryLink} className="inline-flex items-center justify-center gap-2 rounded-full bg-[#05B0BA] px-6 py-3 font-semibold text-white transition hover:scale-[1.02]">
+                {hero.ctaPrimaryText} <FiArrowRight />
               </Link>
-              <Link to="/services" className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
-                Explore Services
+              <Link to={hero.ctaSecondaryLink} className="inline-flex items-center justify-center rounded-full border border-white/30 px-6 py-3 font-semibold text-white transition hover:bg-white/10">
+                {hero.ctaSecondaryText}
               </Link>
             </div>
             <div className="mt-10 flex flex-wrap gap-6 text-sm text-slate-300">
-              <div className="flex items-center gap-2"><FiCheckCircle /> Award-winning team</div>
-              <div className="flex items-center gap-2"><FiCheckCircle /> Fast, transparent execution</div>
+              <div className="flex items-center gap-2"><FiCheckCircle /> {hero.trustBullet1}</div>
+              <div className="flex items-center gap-2"><FiCheckCircle /> {hero.trustBullet2}</div>
             </div>
           </motion.div>
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.9, delay: 0.1 }} className="relative min-w-0">
@@ -116,7 +196,7 @@ export default function Home() {
         <p className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-[#5B6478]">Platforms we build and integrate with</p>
         <div className="relative mt-8 overflow-hidden rounded-[32px] border border-white/10 bg-[#141928]/80 p-8 shadow-sm backdrop-blur">
           <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#22D3D9]/60 to-transparent" />
-          <LogoMarquee items={['HubSpot', 'Salesforce', 'Webflow', 'Shopify', 'Google Ads', 'Meta Ads', 'Slack']} />
+          <LogoMarquee items={platforms} />
         </div>
       </motion.section>
 
@@ -158,8 +238,8 @@ export default function Home() {
           <Link to="/services" className="hidden text-sm font-semibold text-[#05B0BA] sm:inline-flex">View all services →</Link>
         </motion.div>
         <div className="relative mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-          {homeServices.map((service, index) => {
-            const Icon = service.icon
+          {services.map((service, index) => {
+            const Icon = getIcon(service.icon)
             return (
               <motion.div key={service.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, amount: 0.2 }} transition={{ delay: index * 0.08 }}>
                 <TiltCard className="h-full rounded-[28px]">
@@ -186,13 +266,11 @@ export default function Home() {
           />
           <div className="relative grid gap-10 lg:grid-cols-[0.95fr_1.05fr]">
             <motion.div initial={{ opacity: 0, x: -16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, amount: 0.3 }} transition={{ duration: 0.6 }}>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#05B0BA]">About Business Direction</p>
-              <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">A strategic agency for modern growth challenges.</h2>
-              <p className="mt-5 text-base leading-8 text-[#8B93A7]">
-                We blend consulting rigor with marketing creativity to help ambitious brands scale with clarity, confidence, and measurable momentum.
-              </p>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-[#05B0BA]">{about.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">{about.heading}</h2>
+              <p className="mt-5 text-base leading-8 text-[#8B93A7]">{about.description}</p>
               <div className="mt-6 space-y-4">
-                {['Senior-led strategy and execution', 'Transparent reporting and KPI visibility', 'Cross-channel campaigns designed for conversion'].map((item, index) => (
+                {aboutBullets.map((item, index) => (
                   <motion.div
                     key={item}
                     initial={{ opacity: 0, x: -12 }}
@@ -201,7 +279,7 @@ export default function Home() {
                     transition={{ delay: index * 0.1 }}
                     className="flex items-center gap-3 text-white"
                   >
-                    <FiShield className="text-[#22D3D9]" /> {item}
+                    <FiCheckCircle className="text-[#22D3D9]" /> {item}
                   </motion.div>
                 ))}
               </div>
@@ -244,12 +322,7 @@ export default function Home() {
             <h2 className="mt-3 text-3xl font-semibold text-white sm:text-4xl">Built for performance, crafted for trust.</h2>
           </motion.div>
           <div className="grid gap-6 md:grid-cols-2">
-            {[
-              { title: 'Enterprise-ready execution', desc: 'Cross-functional teams that move quickly without sacrificing quality.' },
-              { title: 'Analytics-led approach', desc: 'Every campaign is measured, optimized, and tied to business outcomes.' },
-              { title: 'Brand elevation', desc: 'Refined creative that improves perception and conversion alike.' },
-              { title: 'Full-funnel strategy', desc: 'From awareness to loyalty, we design for measurable growth.' },
-            ].map((item, index) => (
+            {whyChooseUs.map((item, index) => (
               <motion.div
                 key={item.title}
                 initial={{ opacity: 0, y: 20 }}
@@ -289,7 +362,7 @@ export default function Home() {
             </div>
           </div>
           <div className="relative mt-10">
-            <ProcessStepper steps={processSteps} />
+            <ProcessStepper steps={process} />
           </div>
         </motion.div>
       </section>
@@ -340,7 +413,7 @@ export default function Home() {
           <Link to="/portfolio" className="hidden text-sm font-semibold text-[#05B0BA] sm:inline-flex">Open portfolio →</Link>
         </motion.div>
         <div className="mt-10 grid gap-6 lg:grid-cols-3">
-          {portfolioItems.map((item, index) => (
+          {portfolio.map((item, index) => (
             <motion.div
               key={item.title}
               initial={{ opacity: 0, y: 24 }}
@@ -490,13 +563,13 @@ export default function Home() {
           />
           <div className="relative grid gap-8 lg:grid-cols-[1fr_0.8fr] lg:items-center">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">Let's build momentum</p>
-              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">Ready for a growth partner with enterprise-level standards?</h2>
+              <p className="text-sm font-semibold uppercase tracking-[0.3em] text-white/80">{ctaBanner.eyebrow}</p>
+              <h2 className="mt-3 text-3xl font-semibold sm:text-4xl">{ctaBanner.heading}</h2>
             </div>
             <div className="rounded-[28px] border border-white/20 bg-white/10 p-6 backdrop-blur">
-              <p className="text-sm leading-7 text-slate-100">From strategy workshops to launch execution, we help growth-minded companies move faster with clarity and confidence.</p>
-              <Link to="/contact" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#141928] px-5 py-3 font-semibold text-white transition hover:scale-[1.03]">
-                Start your project <FiArrowRight />
+              <p className="text-sm leading-7 text-slate-100">{ctaBanner.description}</p>
+              <Link to={ctaBanner.buttonLink} className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#141928] px-5 py-3 font-semibold text-white transition hover:scale-[1.03]">
+                {ctaBanner.buttonText} <FiArrowRight />
               </Link>
             </div>
           </div>
@@ -524,8 +597,8 @@ export default function Home() {
           >
             <FiMailIcon size={22} />
           </motion.div>
-          <h2 className="relative text-2xl font-semibold text-white sm:text-3xl">Growth insights, straight to your inbox.</h2>
-          <p className="relative max-w-xl text-sm leading-7 text-[#8B93A7]">Join hundreds of marketing leaders getting our monthly playbook on SEO, paid media, and conversion design.</p>
+          <h2 className="relative text-2xl font-semibold text-white sm:text-3xl">{newsletter.heading}</h2>
+          <p className="relative max-w-xl text-sm leading-7 text-[#8B93A7]">{newsletter.description}</p>
           <form className="relative flex w-full max-w-md flex-col gap-3 sm:flex-row" onSubmit={(e) => e.preventDefault()}>
             <input type="email" required placeholder="Your work email" className="w-full rounded-full border border-white/10 px-5 py-3 text-sm outline-none focus:border-[#05B0BA]" />
             <button className="inline-flex items-center justify-center gap-2 rounded-full bg-[#0B0E14] px-6 py-3 text-sm font-semibold text-white transition hover:scale-[1.03] hover:bg-[#05B0BA]">

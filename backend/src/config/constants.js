@@ -12,6 +12,8 @@ export const PERMISSION_MODULES = [
   'blogs',
   'pages',
   'menus',
+  'pageContent',
+  'services',
   'categories',
   'tags',
   'media',
@@ -76,6 +78,8 @@ export const DEFAULT_ROLE_PERMISSIONS = {
     blogs: [...rw, 'publish'],
     pages: [...rw, 'publish'],
     menus: rw,
+    pageContent: rw,
+    services: rw,
     categories: rw,
     tags: rw,
     media: rw,
@@ -87,6 +91,7 @@ export const DEFAULT_ROLE_PERMISSIONS = {
     redirects: rw,
     blogs: rw,
     pages: rw,
+    pageContent: viewOnly,
     categories: rw,
     tags: rw,
     media: rw,
@@ -106,6 +111,8 @@ export const DEFAULT_ROLE_PERMISSIONS = {
     dashboard: viewOnly,
     blogs: ['view', 'create', 'edit'],
     pages: ['view', 'create', 'edit'],
+    pageContent: ['view', 'create', 'edit'],
+    services: ['view', 'create', 'edit'],
     categories: viewOnly,
     tags: rw,
     media: ['view', 'create'],
@@ -151,6 +158,7 @@ export const LEAD_SOURCES = ['website', 'referral', 'google_ads', 'facebook_ads'
 export const BLOG_STATUSES = ['draft', 'scheduled', 'published', 'archived']
 export const PAGE_STATUSES = ['draft', 'scheduled', 'published', 'archived']
 export const MENU_LOCATIONS = ['header', 'footer', 'sidebar']
+export const PAGE_CONTENT_KEYS = ['home', 'about', 'contact', 'faq', 'portfolio']
 
 export const MEDIA_TYPES = ['image', 'video', 'document', 'other']
 

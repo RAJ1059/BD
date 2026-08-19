@@ -46,6 +46,8 @@ const NAV_ITEMS = [
   { to: '/admin/tags', label: 'Tags', icon: FiTag, module: 'tags' },
   { to: '/admin/media', label: 'Media', icon: FiImage, module: 'media' },
   { to: '/admin/pages', label: 'Pages', icon: FiLayout, module: 'pages' },
+  { to: '/admin/page-content', label: 'Page Content', icon: FiLayout, module: 'pageContent' },
+  { to: '/admin/services-content', label: 'Services', icon: FiZap, module: 'services' },
   { to: '/admin/menus', label: 'Menus', icon: FiMenu, module: 'menus' },
   { to: '/admin/tasks', label: 'Tasks', icon: FiCheckSquare, module: 'tasks' },
   { to: '/admin/campaigns', label: 'Campaigns', icon: FiTrendingUp, module: 'utm' },

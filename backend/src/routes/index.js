@@ -7,6 +7,8 @@ import leadRoutes from './lead.routes.js'
 import projectRoutes from './project.routes.js'
 import blogRoutes from './blog.routes.js'
 import pageRoutes from './page.routes.js'
+import pageContentRoutes from './pageContent.routes.js'
+import serviceRoutes from './service.routes.js'
 import menuRoutes from './menu.routes.js'
 import categoryRoutes from './category.routes.js'
 import tagRoutes from './tag.routes.js'
@@ -32,6 +34,7 @@ import socialRoutes from './social.routes.js'
 import formRoutes from './form.routes.js'
 import taskRoutes from './task.routes.js'
 import integrationRoutes from './integration.routes.js'
+import googleOAuthRoutes from './googleOAuth.routes.js'
 
 const router = Router()
 
@@ -43,6 +46,8 @@ router.use('/leads', leadRoutes)
 router.use('/projects', projectRoutes)
 router.use('/blogs', blogRoutes)
 router.use('/pages', pageRoutes)
+router.use('/page-content', pageContentRoutes)
+router.use('/services', serviceRoutes)
 router.use('/menus', menuRoutes)
 router.use('/categories', categoryRoutes)
 router.use('/tags', tagRoutes)
@@ -68,5 +73,6 @@ router.use('/social-links', socialRoutes)
 router.use('/forms', formRoutes)
 router.use('/tasks', taskRoutes)
 router.use('/integrations', integrationRoutes)
+router.use('/oauth/google', googleOAuthRoutes)
 
 export default router

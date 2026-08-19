@@ -77,6 +77,9 @@ router.get('/blogs/:slug', publicController.getPublicBlogBySlug)
 router.post('/blogs/:slug/comments', publicFormLimiter, publicCommentValidator, validate, publicController.addPublicComment)
 
 router.get('/pages/:slug', publicController.getPublicPageBySlug)
+router.get('/page-content/:pageKey', publicController.getPublicPageContent)
+router.get('/services', publicController.listPublicServices)
+router.get('/services/:slug', publicController.getPublicServiceBySlug)
 router.get('/menus/:slug', publicController.listPublicMenu)
 
 router.get('/categories', publicController.listPublicCategories)

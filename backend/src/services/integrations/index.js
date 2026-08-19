@@ -1,11 +1,13 @@
 import { Integration } from '../../models/Integration.js'
 import { fetchGa4Summary } from './ga4.service.js'
+import { fetchGscSummary } from './gsc.service.js'
 
-// Only google_analytics is wired with a real fetcher today. The remaining
-// INTEGRATION_PROVIDERS intentionally have no entry yet — fetchIntegrationReport
-// reports that gracefully rather than throwing.
+// google_analytics and google_search_console are wired with real fetchers.
+// The remaining INTEGRATION_PROVIDERS intentionally have no entry yet —
+// fetchIntegrationReport reports that gracefully rather than throwing.
 export const INTEGRATION_FETCHERS = {
   google_analytics: fetchGa4Summary,
+  google_search_console: fetchGscSummary,
 }
 
 export async function fetchIntegrationReport(provider) {
@@ -21,7 +23,12 @@ export async function fetchIntegrationReport(provider) {
   }
 
   try {
-    const data = await fetcher(doc.credentials)
+    const data = await fetcher(doc.credentials, {
+      onRefresh: async (patch) => {
+        doc.credentials = { ...doc.credentials, ...patch }
+        await doc.save()
+      },
+    })
     doc.lastSyncedAt = new Date()
     doc.lastError = ''
     await doc.save()
